@@ -5,6 +5,8 @@ const logsRoutes = require("./routes/logs");
 const app = express();
 const port = 4050;
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
