@@ -9,20 +9,26 @@ router.get("/", (req, res) => {
 router.post("/new", (req, res) => {
   const {
     id,
-    created,
-    uploaded,
-    source,
-    system,
-    customer,
-    user,
+    logWasCreated,
+    logWasUploadedToApi,
+    sendFromSource,
+    sendFromSystem,
+    sendFromCustomer,
+    sendFromUser,
     shortDescription,
-    iserror,
+    longDescription,
+    isShowingAnError,
     errorCode,
     errorDescription,
-    longDescription,
   } = req.body;
-  res.sendStatus(200);
-  console.log(id);
+  try {
+    db.promise().query(
+      `INSERT INTO systemlogs (logWasCreated,logWasUploadedToApi,sendFromSource,sendFromSystem,sendFromCustomer,sendFromUser,shortDescription,longDescription,isShowingAnError,errorCode,errorDescription) VALUES('${logWasCreated}','${logWasUploadedToApi}','${sendFromSource}','${sendFromSystem}','${sendFromCustomer}','${sendFromUser}','${shortDescription}','${longDescription}','${isShowingAnError}','${errorCode}','${errorDescription}');`
+    );
+    res.status(201).send({ msg: "Created user" });
+  } catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = router;
