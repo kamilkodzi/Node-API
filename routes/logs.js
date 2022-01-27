@@ -2,8 +2,16 @@ const { Router } = require("express");
 const db = require("../config/database");
 const router = Router();
 
-router.get("/", (req, res) => {
-  res.sendStatus(200);
+const getLogsWithHttpQueryParams = (req, res, next) => {
+  const { page } = req.query;
+  console.log(page);
+  // req.results = a
+  next();
+};
+
+router.get("/", getLogsWithHttpQueryParams, async (req, res) => {
+  const results = await db.promise().query(`SELECT * FROM systemlogs`);
+  res.status(200).send(results[0]);
 });
 
 router.post("/new", (req, res) => {
