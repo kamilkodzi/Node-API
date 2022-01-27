@@ -1,17 +1,22 @@
 const { Router } = require("express");
 const db = require("../config/database");
 const router = Router();
+const { getAllRows } = require("../controllers/logsQueries");
 
-const getLogsWithHttpQueryParams = (req, res, next) => {
-  const { page } = req.query;
+const getLogsWithHttpQueryParams = async (req, res, next) => {
+  const { page, rowsPerPage } = req.query;
   console.log(page);
-  // req.results = a
+  console.log(page);
+  req.results = await getAllRows(page, rowsPerPage);
+  console.log(req.results);
   next();
 };
 
-router.get("/", getLogsWithHttpQueryParams, async (req, res) => {
-  const results = await db.promise().query(`SELECT * FROM systemlogs`);
-  res.status(200).send(results[0]);
+router.get("/", async (req, res) => {
+  const { page, rowsPerPage } = req.query;
+  console.log(page);
+  queryResults = await getAllRows(page, rowsPerPage);
+  res.status(200).send(queryResults);
 });
 
 router.post("/new", (req, res) => {
