@@ -4,7 +4,9 @@
   "description": "Applcation to gather loggs",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/app.js",
+    "dev": "nodemon app.ts",
+    "build": "tsc -p ."
   },
   "author": "kamilkodzi",
   "license": "ISC",
@@ -12,5 +14,12 @@
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
     "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.12",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
   }
 }

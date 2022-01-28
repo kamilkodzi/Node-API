@@ -1,6 +1,6 @@
-require("dotenv").config();
-const express = require("express");
-const logsRoutes = require("./routes/logs");
+import "dotenv/config";
+import express from "express";
+import logsRoutes from "./routes/logs";
 
 const app = express();
 const port = 4050;
