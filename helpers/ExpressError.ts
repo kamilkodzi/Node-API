@@ -1,9 +1,9 @@
 class ExpressError extends Error {
-  statusCode:number;
-  constructor(message:string, statusCode:number) {
+  code: number;
+  constructor(message: string, code: number) {
     super();
     this.message = message;
-    this.statusCode = statusCode;
+    this.code = code;
   }
 }
 

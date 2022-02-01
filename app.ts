@@ -3,6 +3,8 @@ import express from "express";
 import logsRoutes from "./routes/logs";
 import ExpressError from "./helpers/ExpressError";
 import path from "path";
+import db from "./config/database";
+import errorMessageCreator from "./middlewares/errorMessageCreator";
 
 const app = express();
 const port = 4050;
@@ -14,17 +16,19 @@ app.get("/", (req, res) => {
 });
 app.use("/api/logs", logsRoutes);
 
-app.get("/admin", (req, res) => {
-  throw new ExpressError("You are not autorized", 403);
+app.get("/admin", (req, res, next) => {
+  next(new ExpressError("You are not autorized", 403));
 });
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
 });
 
+app.use(errorMessageCreator);
+
 app.use((err, req, res, next) => {
   const { statusCode = 500, message = "Something went wrong" } = err;
-  res.send(statusCode, {
+  res.status(statusCode).send({
     status: statusCode,
     message: message,
   });
