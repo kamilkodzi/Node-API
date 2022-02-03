@@ -25,9 +25,8 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(errorMessageCreator);
-
 app.use((err, req, res, next) => {
-  const { statusCode = 500, message = "Something went wrong" } = err;
+  const { statusCode, message } = err;
   res.status(statusCode).send({
     status: statusCode,
     message: message,

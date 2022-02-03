@@ -1,17 +1,36 @@
 import { Router } from "express";
+import { check, validationResult } from "express-validator";
+import { stringify } from "querystring";
 import db from "../config/database";
 import getLatestLogs from "../controllers/logsQueries";
-import asyncErrorHandler from "../helpers/asyncErrorHandler";
+import {
+  asyncErrorHandler,
+  validationAndSanitizationErrorHandler,
+} from "../helpers/ErrorHandlers";
 import ExpressError from "../helpers/ExpressError";
 const router = Router();
 
 router.get(
   "/",
+
+  // validationAndSanitizationErrorHandler(
+  check("page").isInt({ gt: 0 }).optional(),
+  // ),
   asyncErrorHandler(async (req, res, next) => {
-    const queryResults = await getLatestLogs(req.query);
-    if (queryResults) {
+    const validationErrors = validationResult(req);
+
+    if (!validationErrors.isEmpty()) {
+      // console.log(validationErrors);
+      // dodać funcję opakowywyujaco która jako middleware ogarnie ten error handling z walidacji i sanityzacji z errorami :O
       throw new ExpressError(
-        "Can`t find logs while connecting to database",
+        "Validation error- entered data by you is invalid",
+        400
+      );
+    }
+    const queryResults = await getLatestLogs(req.query);
+    if (!queryResults) {
+      throw new ExpressError(
+        "There are problems with recieving data you requested - try again or contact with your administrator",
         500
       );
     }

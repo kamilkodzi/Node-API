@@ -1,7 +1,7 @@
 import ExpressError from "../helpers/ExpressError";
 
 const errorMessageCreator = (err, req, res, next) => {
-  const { code, name } = err;
+  const { code, message } = err;
   switch (code) {
     case "ER_SP_UNDECLARED_VAR":
       next(
@@ -39,6 +39,7 @@ const unexpectedErrorsHandler = (err) => {
   if (err instanceof ExpressError) {
     return err;
   } else {
+    console.log(err);
     return new ExpressError(
       "Unhandled exception - please contact with your administrator",
       500
