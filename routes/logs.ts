@@ -1,39 +1,23 @@
 import { Router } from "express";
 import { check, validationResult } from "express-validator";
 import { stringify } from "querystring";
-import db from "../config/database";
-import getLatestLogs from "../controllers/logsQueries";
+import db from "../config/databaseConfiguration";
+import { getLatestCreatedLogs } from "../controllers/logs";
 import {
   asyncErrorHandler,
-  validationAndSanitizationErrorHandler,
-} from "../helpers/errorHandlers";
+  validationIncommingDataErrorHandler,
+} from "../helpers/errorsHandlers";
 import ExpressError from "../helpers/ExpressError";
 const router = Router();
+import validateIncommingClientData from "../validations/logs";
+import validationTypes from "../config/validationTypesList";
 
 router.get(
   "/",
-
-  // validationAndSanitizationErrorHandler(
-  check("page").isInt({ gt: 0 }).optional(),
-  // ),
+  validateIncommingClientData(validationTypes.GET_LATEST_LOGS),
+  validationIncommingDataErrorHandler,
   asyncErrorHandler(async (req, res, next) => {
-    const validationErrors = validationResult(req);
-
-    if (!validationErrors.isEmpty()) {
-      // console.log(validationErrors);
-      // dodać funcję opakowywyujaco która jako middleware ogarnie ten error handling z walidacji i sanityzacji z errorami :O
-      throw new ExpressError(
-        "Validation error- entered data by you is invalid",
-        400
-      );
-    }
-    const queryResults = await getLatestLogs(req.query);
-    if (!queryResults) {
-      throw new ExpressError(
-        "There are problems with recieving data you requested - try again or contact with your administrator",
-        500
-      );
-    }
+    const queryResults = await getLatestCreatedLogs(req.query);
     res.status(200).send(queryResults);
   })
 );

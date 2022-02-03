@@ -1,8 +1,8 @@
-import db from "../config/database";
+import db from "../config/databaseConfiguration";
 import apiConfig from "../config/apiConfig";
 import getOffset from "../helpers/offsetQueries";
 
-async function getLatestLogs(query: any) {
+const getLatestCreatedLogs = async (query: any) => {
   const MaxRowsPerGetRequest = apiConfig.maximumRowsPerGetRequest;
   let { page, rowsPerPage } = query;
   if (!page) page = 1;
@@ -21,6 +21,8 @@ async function getLatestLogs(query: any) {
     data,
     meta,
   };
-}
+};
 
-export default getLatestLogs;
+const getLatestUploadedLogs = () => {};
+
+export { getLatestCreatedLogs, getLatestUploadedLogs };
