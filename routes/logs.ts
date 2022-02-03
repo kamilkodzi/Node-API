@@ -6,7 +6,7 @@ import getLatestLogs from "../controllers/logsQueries";
 import {
   asyncErrorHandler,
   validationAndSanitizationErrorHandler,
-} from "../helpers/ErrorHandlers";
+} from "../helpers/errorHandlers";
 import ExpressError from "../helpers/ExpressError";
 const router = Router();
 
