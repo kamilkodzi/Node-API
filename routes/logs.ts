@@ -12,10 +12,17 @@ const router = Router();
 import validateIncommingClientData from "../validations/logs";
 import validationTypes from "../config/validationTypesList";
 
+const sanitizationMiddlewareTest = (req, res, next) => {
+  req.query.rowsPerPage = 2;
+  next();
+};
+
 router.get(
   "/",
   validateIncommingClientData(validationTypes.GET_LATEST_LOGS),
+  //zastanowic sie czy nie zrobic funkcji - bo po nazwie to ciezko wyszukac co to ma byc a jesli funkcja to mozna si eodniesc do niej 
   validationIncommingDataErrorHandler,
+  sanitizationMiddlewareTest,
   asyncErrorHandler(async (req, res, next) => {
     const queryResults = await getLatestCreatedLogs(req.query);
     res.status(200).send(queryResults);
