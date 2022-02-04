@@ -1,5 +1,4 @@
 import mysql from "mysql2";
-import ExpressError from "../helpers/ExpressError";
 
 const db = mysql.createPool({
   connectionLimit: 10,

@@ -1,31 +1,23 @@
-import db from "../config/databaseConfiguration";
-import apiConfig from "../config/apiConfig";
 import getOffset from "../helpers/offsetQueries";
+import { systemlogsSchema } from "../models/logs";
+import { getLatestLogsQuery } from "../services/logs";
 
-const getLatestCreatedLogs = async (query: {
-  page: number;
-  rowsPerPage: number;
-}) => {
-  let { page, rowsPerPage } = query;
-  const MaxRowsPerGetRequest = apiConfig.maximumRowsPerGetRequest;
-  if (!page) page = 1;
-  if (!rowsPerPage) rowsPerPage = MaxRowsPerGetRequest;
-  const offset = getOffset(page, rowsPerPage);
+const getLatestCreatedLogs = async (req, res, next) => {
+  const { page, rowslimit } = req.query;
+  const pageTurnedInToOffset = getOffset(page, rowslimit);
 
-  const rows = await db
-    .promise()
-    .query(`SELECT * FROM systemlogs ORDER BY id DESC LIMIT ?,?`, [
-      offset,
-      rowsPerPage,
-    ]);
-  const data = rows[0];
-  const meta = { page };
-  return {
-    data,
-    meta,
+  const queryResults = await getLatestLogsQuery(
+    pageTurnedInToOffset,
+    rowslimit,
+    systemlogsSchema.col_id
+  );
+  const apiAnswer = {
+    data: queryResults,
+    meta: { page: page },
   };
+  res.status(200).send(apiAnswer);
 };
 
-const getLatestUploadedLogs = () => {};
-
-export { getLatestCreatedLogs, getLatestUploadedLogs };
+export = {
+  getLatestCreatedLogs,
+};
