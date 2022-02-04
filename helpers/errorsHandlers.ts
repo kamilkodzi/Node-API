@@ -7,7 +7,7 @@ export const asyncErrorHandler = (fn) => {
   };
 };
 
-export const validationIncommingDataErrorHandler = (req, res, next) => {
+export const validationErrorsHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     return next();

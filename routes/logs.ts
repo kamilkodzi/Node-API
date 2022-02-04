@@ -1,28 +1,18 @@
 import { Router } from "express";
-import { check, validationResult } from "express-validator";
-import { stringify } from "querystring";
 import db from "../config/databaseConfiguration";
 import { getLatestCreatedLogs } from "../controllers/logs";
 import {
   asyncErrorHandler,
-  validationIncommingDataErrorHandler,
+  validationErrorsHandler,
 } from "../helpers/errorsHandlers";
 import ExpressError from "../helpers/ExpressError";
 const router = Router();
-import validateIncommingClientData from "../validations/logs";
-import validationTypes from "../config/validationTypesList";
-
-const sanitizationMiddlewareTest = (req, res, next) => {
-  req.query.rowsPerPage = 2;
-  next();
-};
+import validateSentQuery from "../validations/logs";
 
 router.get(
   "/",
-  validateIncommingClientData(validationTypes.GET_LATEST_LOGS),
-  //zastanowic sie czy nie zrobic funkcji - bo po nazwie to ciezko wyszukac co to ma byc a jesli funkcja to mozna si eodniesc do niej 
-  validationIncommingDataErrorHandler,
-  sanitizationMiddlewareTest,
+  validateSentQuery.schemaForLatestLogs(),
+  validationErrorsHandler,
   asyncErrorHandler(async (req, res, next) => {
     const queryResults = await getLatestCreatedLogs(req.query);
     res.status(200).send(queryResults);
