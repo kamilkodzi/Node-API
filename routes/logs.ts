@@ -3,8 +3,8 @@ import {
   validationErrorsHandler,
 } from "../helpers/errorsHandlers";
 import { Router } from "express";
-import validation from "../validations/logs";
-import sanitization from "../sanitization/logs";
+import validation from "../validationAndSanitization/logs";
+import mutate from "../mutators/logs";
 import logsControler from "../controllers/logs";
 
 const router = Router();
@@ -12,7 +12,7 @@ router.get(
   "/",
   validation.forLatestLogs(),
   validationErrorsHandler,
-  sanitization.forGettingLatestLogs,
+  mutate.mutateGetQueryForLatestLogs,
   asyncErrorHandler(logsControler.getLatestCreatedLogs)
 );
 
