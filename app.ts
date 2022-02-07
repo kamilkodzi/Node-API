@@ -3,12 +3,13 @@ import express from "express";
 import logsRoutes from "./routes/logs";
 import ExpressError from "./helpers/ExpressError";
 import errorMessageCreator from "./middlewares/errorMessageCreator";
+import { requestTime } from "./middlewares/requestTime";
 
 const app = express();
 const port = 4050;
 
 app.use(express.json());
-
+app.use(requestTime);
 app.use("/logs", logsRoutes);
 
 app.get("/admin", (req, res, next) => {

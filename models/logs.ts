@@ -1,4 +1,4 @@
-export const systemlogsSchema = {
+export const systemlogsDBModel = {
   tab_tableName: "systemlogs",
   col_id: "id",
   col_logWasCreated: "logWasCreated",
@@ -12,4 +12,5 @@ export const systemlogsSchema = {
   col_isShowingAnError: "isShowingAnError",
   col_errorCode: "errorCode",
   col_errorDescription: "errorDescription",
+  col_comment: "comment",
 };

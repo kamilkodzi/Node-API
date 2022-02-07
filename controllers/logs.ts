@@ -1,27 +1,48 @@
 import getOffset from "../helpers/offsetQueries";
-import { systemlogsSchema } from "../models/logs";
-import { getLatestLogsQuery } from "../services/logs";
+import { systemlogsDBModel } from "../models/logs";
+import { addNewLogToDatabase, getLatestLogsQuery } from "../services/logs";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+import { apiResponseText } from "../config/consts";
 
 const getLatestCreatedLogs = async (req, res, next) => {
   const page = req.query[httpQry.query_page];
   const rowslimit = req.query[httpQry.query_rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);
-
+  const responseDataText = apiResponseText.get_responseData;
+  const resonseMetaText = apiResponseText.get_responseMeta;
+  const responsePageText = apiResponseText.get_responsePage;
   const queryResults = await getLatestLogsQuery(
     pageTurnedInToOffset,
     rowslimit,
-    systemlogsSchema.col_id
+    systemlogsDBModel.col_id
   );
   const apiAnswer = {
-    data: queryResults,
-    meta: { page: page },
+    [responseDataText]: queryResults,
+    [resonseMetaText]: { [responsePageText]: page },
   };
   res.status(200).send(apiAnswer);
 };
 
 const addNewLog = async (req, res, next) => {
-  // const {}
+  const requiredQueryData = {
+    logWasCreated: req.body[httpQry.body_logWasCreated],
+    logWasUploadedToApi: req.requestTime,
+    sendFromSource: req.body[httpQry.body_sendFromSource],
+    sendFromSystem: req.body[httpQry.body_sendFromSystem],
+    sendFromCustomer: req.body[httpQry.body_sendFromCustomer],
+    sendFromUser: req.body[httpQry.body_sendFromUser],
+    shortDescription: req.body[httpQry.body_shortDescription],
+    longDescription: req.body[httpQry.body_longDescription],
+    isShowingAnError: req.body[httpQry.body_isShowingAnError],
+    errorCode: req.body[httpQry.body_errorCode],
+    errorDescription: req.body[httpQry.body_errorDescription],
+  };
+  const responseIdText = apiResponseText.post_responseId;
+  const queryResults = await addNewLogToDatabase(requiredQueryData);
+  const apiAnswer = {
+    [responseIdText]: queryResults["insertId"],
+  };
+  res.status(200).send(apiAnswer);
 };
 
 export = {

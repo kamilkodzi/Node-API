@@ -12,4 +12,12 @@ export const httpBodyAndQueriesConsts = {
   body_isShowingAnError: "isShowingAnError",
   body_errorCode: "errorCode",
   body_errorDescription: "errorDescription",
+  body_comment:"comment"
+};
+
+export const apiResponseText = {
+  get_responsePage: "page",
+  get_responseMeta: "meta",
+  get_responseData: "data",
+  post_responseId: "insertedId",
 };
