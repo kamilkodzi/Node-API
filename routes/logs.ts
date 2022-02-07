@@ -10,12 +10,13 @@ import logsControler from "../controllers/logs";
 const router = Router();
 router.get(
   "/",
-  validation.forLatestLogs(),
+  validation.validationForLatestLogs(),
   validationErrorsHandler,
   mutate.mutateGetQueryForLatestLogs,
   asyncErrorHandler(logsControler.getLatestCreatedLogs)
 );
 
+router.post("/", asyncErrorHandler(logsControler.addNewLog));
 // router.post("/new", (req, res) => {
 //   const {
 //     id,
