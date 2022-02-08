@@ -22,7 +22,6 @@ const validationForLatestLogs = (): ValidationChain[] => {
 };
 
 const validationForAddingNewLog = () => {
-  console.log("validated");
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
@@ -49,6 +48,10 @@ const validationForAddingNewLog = () => {
       ).notEmpty(),
       body(
         httpQry.body_longDescription,
+        "Long or short description is required"
+      ).notEmpty(),
+      body(
+        httpQry.body_errorDescription,
         "Long or short description is required"
       ).notEmpty(),
     ]),

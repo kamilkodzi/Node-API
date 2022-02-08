@@ -9,23 +9,39 @@ export const asyncErrorHandler = (fn) => {
 
 export const validationErrorsHandler = (req, res, next) => {
   const errors = validationResult(req);
+
+  let concatenatedErrorMessageFromValidation = "";
   if (errors.isEmpty()) {
     return next();
   } else {
     const extractedErrors = (): string => {
-      let concatenatedErrorMessageFromValidation = "";
       return errors
         .array()
-        .map(
-          (err) =>
-            (concatenatedErrorMessageFromValidation =
-              " Provided parameter " + err.param) +
-            " with value: " +
-            err.value +
-            " is not acceptable (" +
-            err.msg +
-            ")"
-        )
+        .map((err) => {
+          if (err.nestedErrors) {
+            err.nestedErrors.map((nestedErr) => {
+              concatenatedErrorMessageFromValidation =
+                concatenatedErrorMessageFromValidation +
+                " Provided parameter " +
+                nestedErr.param +
+                " with value: " +
+                nestedErr.value +
+                " is not acceptable (" +
+                nestedErr.msg +
+                ")";
+            });
+            return concatenatedErrorMessageFromValidation;
+          } else {
+            return (concatenatedErrorMessageFromValidation =
+              " Provided parameter " +
+              err.param +
+              " with value: " +
+              err.value +
+              " is not acceptable (" +
+              err.msg +
+              ")");
+          }
+        })
         .toString()
         .trim();
     };
