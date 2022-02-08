@@ -2,7 +2,7 @@ import { body, oneOf, query, ValidationChain } from "express-validator";
 import apiConfig from "../config/apiConfig";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
 
-const validationForLatestLogs = (): ValidationChain[] => {
+const validationForLatestErrors = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
       .optional()
@@ -21,7 +21,7 @@ const validationForLatestLogs = (): ValidationChain[] => {
   ];
 };
 
-const validationForAddingNewLog = () => {
+const validationForAddingNewError = () => {
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
@@ -42,26 +42,28 @@ const validationForAddingNewLog = () => {
       .notEmpty()
       .withMessage("Value is required")
       .trim(),
+    body(httpQry.body_errorCode)
+      .notEmpty()
+      .withMessage("Value is required")
+      .trim(),
+    body(httpQry.body_errorDescription)
+      .notEmpty()
+      .withMessage("Value is required")
+      .trim(),
     body(httpQry.body_sendFromUser).notEmpty().withMessage("Value is required"),
-    oneOf([
-      body(
-        httpQry.body_shortDescription,
-        "Long or short description is required"
-      )
-        .notEmpty()
-        .trim(),
-      body(
-        httpQry.body_longDescription,
-        "Long or short description is required"
-      )
-        .notEmpty()
-        .trim(),
-    ]),
+    body(
+      httpQry.body_shortDescription,
+      "Long or short description is required"
+    ).trim(),
+    body(
+      httpQry.body_longDescription,
+      "Long or short description is required"
+    ).trim(),
   ];
 };
 
 const logsValidation = {
-  validationForLatestLogs,
-  validationForAddingNewLog,
+  validationForLatestErrors,
+  validationForAddingNewError,
 };
 export default logsValidation;

@@ -19,5 +19,5 @@ export const apiResponseText = {
   get_responsePage: "page",
   get_responseMeta: "meta",
   get_responseData: "data",
-  post_responseId: "insertedId",
+  post_responseId: "insertId",
 };

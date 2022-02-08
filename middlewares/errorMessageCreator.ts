@@ -2,7 +2,6 @@ import ExpressError from "../helpers/ExpressError";
 
 const errorMessageCreator = (err, req, res, next) => {
   const { code, message, type } = err;
-
   switch (true) {
     case code == "ER_SP_UNDECLARED_VAR":
       next(

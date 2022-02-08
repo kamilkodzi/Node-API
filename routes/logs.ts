@@ -9,16 +9,26 @@ import logsControler from "../controllers/logs";
 const router = Router();
 
 router
-  .route("/")
+  .route("/logs")
   .get(
     validation.validationForLatestLogs(),
     validationErrorsHandler,
     mutate.mutateGetQueryForLatestLogs,
     asyncErrorHandler(logsControler.getLatestCreatedLogs)
   )
+  .post((req, res) => {
+    res.send("TBD");
+  });
+
+router
+  .route("/log")
+  .get((req, res) => {
+    res.send("TBD");
+  })
   .post(
     validation.validationForAddingNewLog(),
     validationErrorsHandler,
+    mutate.mutatePostQueryAddNewLog,
     asyncErrorHandler(logsControler.addNewLog)
   );
 
