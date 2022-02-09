@@ -1,8 +1,13 @@
-import { body, oneOf, query, ValidationChain } from "express-validator";
+import { body, query, ValidationChain } from "express-validator";
 import apiConfig from "../config/apiConfig";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+import {
+  allowedCustomers,
+  allowedSources,
+  allowedSystems,
+} from "../config/consts";
 
-const validationForLatestErrors = (): ValidationChain[] => {
+export const validationForLatestErrors = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
       .optional()
@@ -21,7 +26,7 @@ const validationForLatestErrors = (): ValidationChain[] => {
   ];
 };
 
-const validationForAddingNewError = () => {
+export const validationForAddingNewError = () => {
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
@@ -32,25 +37,45 @@ const validationForAddingNewError = () => {
       ),
     body(httpQry.body_sendFromSource)
       .notEmpty()
+      .toUpperCase()
+      .trim()
       .withMessage("Value is required")
-      .trim(),
+      .isIn(allowedSources)
+      .withMessage(
+        "Be sure that value is one of the following: " + allowedSources
+      ),
     body(httpQry.body_sendFromSystem)
       .notEmpty()
+      .toUpperCase()
+      .trim()
       .withMessage("Value is required")
-      .trim(),
+      .isIn(allowedSystems)
+      .withMessage(
+        "Be sure that value is one of the following: " + allowedSystems
+      ),
     body(httpQry.body_sendFromCustomer)
       .notEmpty()
+      .toUpperCase()
+      .trim()
       .withMessage("Value is required")
-      .trim(),
+      .isIn(allowedCustomers)
+      .withMessage(
+        "Be sure that value is one of the following: " + allowedCustomers
+      ),
     body(httpQry.body_errorCode)
       .notEmpty()
-      .withMessage("Value is required")
-      .trim(),
+      .toUpperCase()
+      .trim()
+      .withMessage("Value is required"),
     body(httpQry.body_errorDescription)
       .notEmpty()
+      .trim()
       .withMessage("Value is required")
       .trim(),
-    body(httpQry.body_sendFromUser).notEmpty().withMessage("Value is required"),
+    body(httpQry.body_sendFromUser)
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required"),
     body(
       httpQry.body_shortDescription,
       "Long or short description is required"
@@ -61,9 +86,3 @@ const validationForAddingNewError = () => {
     ).trim(),
   ];
 };
-
-const logsValidation = {
-  validationForLatestErrors,
-  validationForAddingNewError,
-};
-export default logsValidation;

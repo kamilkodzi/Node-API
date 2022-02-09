@@ -24,6 +24,7 @@ const getLatestCreatedLogs = async (req, res, next) => {
 };
 
 const addNewLog = async (req, res, next) => {
+  const isShowingAnError = 0;
   const requiredQueryData = {
     logWasCreated: req.body[httpQry.body_logWasCreated],
     logWasUploadedToApi: req.requestTime,
@@ -33,7 +34,9 @@ const addNewLog = async (req, res, next) => {
     sendFromUser: req.body[httpQry.body_sendFromUser],
     shortDescription: req.body[httpQry.body_shortDescription],
     longDescription: req.body[httpQry.body_longDescription],
+    isShowingAnError: [isShowingAnError],
   };
+
   const responseIdText = apiResponseText.post_responseId;
   const queryResults = await addNewLogToDatabase(requiredQueryData);
   const apiAnswer = {

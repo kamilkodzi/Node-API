@@ -2,18 +2,22 @@ import {
   asyncErrorHandler,
   validationErrorsHandler,
 } from "../helpers/errorsHandlers";
+import {
+  validationForLatestErrors,
+  validationForAddingNewError,
+} from "../validationAndSanitization/errors";
 import { Router } from "express";
-import validation from "../validationAndSanitization/errors";
-import mutate from "../mutators/errors";
+import { mutatePostQueryDescriptionsIfUndefined } from "../mutators/common";
 import errorControler from "../controllers/errors";
+import { maxRowsAndFirstPageSecure } from "../helpers/pageAndRowlimitSecure";
 const router = Router();
 
 router
   .route("/errors")
   .get(
-    validation.validationForLatestErrors(),
+    validationForLatestErrors(),
     validationErrorsHandler,
-    mutate.mutateGetQueryForLatestErrors,
+    maxRowsAndFirstPageSecure,
     asyncErrorHandler(errorControler.getLatestCreatedErrors)
   )
   .post((req, res) => {
@@ -26,9 +30,9 @@ router
     res.send("TBD");
   })
   .post(
-    validation.validationForAddingNewError(),
+    validationForAddingNewError(),
     validationErrorsHandler,
-    mutate.mutatePostQueryAddNewError,
+    mutatePostQueryDescriptionsIfUndefined,
     asyncErrorHandler(errorControler.addNewError)
   );
 

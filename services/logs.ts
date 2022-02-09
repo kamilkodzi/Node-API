@@ -4,7 +4,7 @@ import { systemlogsDBModel as model } from "../config/databaseSchema";
 export const getLatestLogsQuery = async (
   offset: number,
   rowslimit: number,
-  sortBy: string,
+  sortBy: string
 ) => {
   const queryResults = await db
     .promise()
@@ -24,11 +24,12 @@ export const addNewLogToDatabase = async ({
   sendFromUser,
   shortDescription,
   longDescription,
+  isShowingAnError,
 }) => {
   const queryResults = await db
     .promise()
     .query(
-      `INSERT INTO ${model.tab_tableName} (${model.col_logWasCreated},${model.col_logWasUploadedToApi},${model.col_sendFromSource},${model.col_sendFromSystem},${model.col_sendFromCustomer},${model.col_sendFromUser},${model.col_shortDescription},${model.col_longDescription}) VALUES('${logWasCreated}','${logWasUploadedToApi}','${sendFromSource}','${sendFromSystem}','${sendFromCustomer}','${sendFromUser}','${shortDescription}','${longDescription}');`
+      `INSERT INTO ${model.tab_tableName} (${model.col_logWasCreated},${model.col_logWasUploadedToApi},${model.col_sendFromSource},${model.col_sendFromSystem},${model.col_sendFromCustomer},${model.col_sendFromUser},${model.col_shortDescription},${model.col_longDescription},${model.col_isShowingAnError}) VALUES('${logWasCreated}','${logWasUploadedToApi}','${sendFromSource}','${sendFromSystem}','${sendFromCustomer}','${sendFromUser}','${shortDescription}','${longDescription}','${isShowingAnError}');`
     );
   return queryResults[0];
 };

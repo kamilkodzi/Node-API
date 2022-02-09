@@ -1,8 +1,13 @@
 import { body, oneOf, query, ValidationChain } from "express-validator";
 import apiConfig from "../config/apiConfig";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+import {
+  allowedCustomers,
+  allowedSources,
+  allowedSystems,
+} from "../config/consts";
 
-const validationForLatestLogs = (): ValidationChain[] => {
+export const validationForLatestLogs = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
       .optional()
@@ -21,7 +26,7 @@ const validationForLatestLogs = (): ValidationChain[] => {
   ];
 };
 
-const validationForAddingNewLog = () => {
+export const validationForAddingNewLog = () => {
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
@@ -32,16 +37,31 @@ const validationForAddingNewLog = () => {
       ),
     body(httpQry.body_sendFromSource)
       .notEmpty()
+      .toUpperCase()
+      .trim()
       .withMessage("Value is required")
-      .trim(),
+      .isIn(allowedSources)
+      .withMessage(
+        "Be sure that value is one of the following: " + allowedSources
+      ),
     body(httpQry.body_sendFromSystem)
       .notEmpty()
+      .toUpperCase()
+      .trim()
       .withMessage("Value is required")
-      .trim(),
+      .isIn(allowedSystems)
+      .withMessage(
+        "Be sure that value is one of the following: " + allowedSystems
+      ),
     body(httpQry.body_sendFromCustomer)
       .notEmpty()
+      .toUpperCase()
+      .trim()
       .withMessage("Value is required")
-      .trim(),
+      .isIn(allowedCustomers)
+      .withMessage(
+        "Be sure that value is one of the following: " + allowedCustomers
+      ),
     body(httpQry.body_sendFromUser).notEmpty().withMessage("Value is required"),
     oneOf([
       body(
@@ -59,9 +79,3 @@ const validationForAddingNewLog = () => {
     ]),
   ];
 };
-
-const logsValidation = {
-  validationForLatestLogs,
-  validationForAddingNewLog,
-};
-export default logsValidation;

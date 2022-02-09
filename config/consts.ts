@@ -12,7 +12,7 @@ export const httpBodyAndQueriesConsts = {
   body_isShowingAnError: "isShowingAnError",
   body_errorCode: "errorCode",
   body_errorDescription: "errorDescription",
-  body_comment:"comment"
+  body_comment: "comment",
 };
 
 export const apiResponseText = {
@@ -21,3 +21,12 @@ export const apiResponseText = {
   get_responseData: "data",
   post_responseId: "insertId",
 };
+
+export const allowedCustomers = [
+  "SUNSETINDUSTRIES",
+  "HALBA",
+  "ACME",
+  "TEST-CUSTOMER",
+];
+export const allowedSources = ["KAMILPC", "DANIELPC"];
+export const allowedSystems = ["RUOM", "POSTMAN", "BIOTOP", "EO"];

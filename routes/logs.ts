@@ -2,18 +2,23 @@ import {
   asyncErrorHandler,
   validationErrorsHandler,
 } from "../helpers/errorsHandlers";
+
+import {
+  validationForLatestLogs,
+  validationForAddingNewLog,
+} from "../validationAndSanitization/logs";
 import { Router } from "express";
-import validation from "../validationAndSanitization/logs";
-import mutate from "../mutators/logs";
+import { mutatePostQueryDescriptionsIfUndefined } from "../mutators/common";
 import logsControler from "../controllers/logs";
+import { maxRowsAndFirstPageSecure } from "../helpers/pageAndRowlimitSecure";
 const router = Router();
 
 router
   .route("/logs")
   .get(
-    validation.validationForLatestLogs(),
+    validationForLatestLogs(),
     validationErrorsHandler,
-    mutate.mutateGetQueryForLatestLogs,
+    maxRowsAndFirstPageSecure,
     asyncErrorHandler(logsControler.getLatestCreatedLogs)
   )
   .post((req, res) => {
@@ -26,9 +31,9 @@ router
     res.send("TBD");
   })
   .post(
-    validation.validationForAddingNewLog(),
+    validationForAddingNewLog(),
     validationErrorsHandler,
-    mutate.mutatePostQueryAddNewLog,
+    mutatePostQueryDescriptionsIfUndefined,
     asyncErrorHandler(logsControler.addNewLog)
   );
 
