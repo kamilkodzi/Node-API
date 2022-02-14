@@ -2,39 +2,42 @@ import {
   asyncErrorHandler,
   validationErrorsHandler,
 } from "../helpers/errorsHandlers";
-
 import {
-  validationForLatestLogs,
-  validationForAddingNewLog,
+  validationForPostingNewLog,
+  validationForGettingLatestLogs,
+  getLogsParamMatchSchema,
+  postLogParamMatchSchema,
 } from "../validationAndSanitization/logs";
 import { Router } from "express";
 import { mutatePostQueryDescriptionsIfUndefined } from "../mutators/common";
 import logsControler from "../controllers/logs";
-import { maxRowsAndFirstPageSecure } from "../helpers/pageAndRowlimitSecure";
+import { mutateFirstPageAndPageIfUndefined } from "../mutators/common";
+import { checkThatSendParamsMatchSchema } from "../validationAndSanitization/common";
+
 const router = Router();
+
+router
+  .route("/log")
+  .get(logsControler.redirectToLogsRoute)
+  .post(
+    checkThatSendParamsMatchSchema(postLogParamMatchSchema),
+    validationForPostingNewLog(),
+    validationErrorsHandler,
+    mutatePostQueryDescriptionsIfUndefined,
+    asyncErrorHandler(logsControler.addNewLog)
+  );
 
 router
   .route("/logs")
   .get(
-    validationForLatestLogs(),
+    checkThatSendParamsMatchSchema(getLogsParamMatchSchema),
+    validationForGettingLatestLogs(),
     validationErrorsHandler,
-    maxRowsAndFirstPageSecure,
+    mutateFirstPageAndPageIfUndefined,
     asyncErrorHandler(logsControler.getLatestCreatedLogs)
   )
   .post((req, res) => {
     res.send("TBD");
   });
-
-router
-  .route("/log")
-  .get((req, res) => {
-    res.send("TBD");
-  })
-  .post(
-    validationForAddingNewLog(),
-    validationErrorsHandler,
-    mutatePostQueryDescriptionsIfUndefined,
-    asyncErrorHandler(logsControler.addNewLog)
-  );
 
 export default router;

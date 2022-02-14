@@ -19,7 +19,9 @@ export const apiResponseText = {
   get_responsePage: "page",
   get_responseMeta: "meta",
   get_responseData: "data",
+  get_responseCountOfRowsReturnedByQuery:"rows",
   post_responseId: "insertId",
+  
 };
 
 export const allowedCustomers = [

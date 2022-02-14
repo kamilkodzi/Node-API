@@ -7,6 +7,21 @@ import {
   allowedSystems,
 } from "../config/consts";
 
+export const getErrorsParamMatchSchema = [
+  httpQry.query_page,
+  httpQry.query_rowslimit,
+];
+
+export const postErrorParamMatchSchema = [
+  httpQry.body_logWasCreated,
+  httpQry.body_sendFromSource,
+  httpQry.body_sendFromSystem,
+  httpQry.body_sendFromCustomer,
+  httpQry.body_sendFromUser,
+  httpQry.body_errorCode,
+  httpQry.body_errorDescription,
+];
+
 export const validationForLatestErrors = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
@@ -18,7 +33,7 @@ export const validationForLatestErrors = (): ValidationChain[] => {
       .toInt(),
     query(httpQry.query_rowslimit)
       .optional()
-      .isInt({ gt: 0 })
+      .isInt({ min: 1, max: apiConfig.maximumRowsPerGetRequest })
       .withMessage(
         `Value should be greather than 0 and less than ${apiConfig.maximumRowsPerGetRequest}`
       )

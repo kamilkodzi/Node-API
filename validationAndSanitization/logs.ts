@@ -7,7 +7,22 @@ import {
   allowedSystems,
 } from "../config/consts";
 
-export const validationForLatestLogs = (): ValidationChain[] => {
+export const getLogsParamMatchSchema = [
+  httpQry.query_page,
+  httpQry.query_rowslimit,
+];
+
+export const postLogParamMatchSchema = [
+  httpQry.body_logWasCreated,
+  httpQry.body_sendFromSource,
+  httpQry.body_sendFromSystem,
+  httpQry.body_sendFromCustomer,
+  httpQry.body_sendFromUser,
+  httpQry.body_longDescription,
+  httpQry.body_shortDescription,
+];
+
+export const validationForGettingLatestLogs = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
       .optional()
@@ -18,7 +33,7 @@ export const validationForLatestLogs = (): ValidationChain[] => {
       .toInt(),
     query(httpQry.query_rowslimit)
       .optional()
-      .isInt({ gt: 0 })
+      .isInt({ min: 1, max: apiConfig.maximumRowsPerGetRequest })
       .withMessage(
         `Value should be greather than 0 and less than ${apiConfig.maximumRowsPerGetRequest}`
       )
@@ -26,7 +41,7 @@ export const validationForLatestLogs = (): ValidationChain[] => {
   ];
 };
 
-export const validationForAddingNewLog = () => {
+export const validationForPostingNewLog = () => {
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
