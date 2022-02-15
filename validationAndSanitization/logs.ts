@@ -55,6 +55,7 @@ export const validationForPostingNewLog = () => {
       .toUpperCase()
       .trim()
       .withMessage("Value is required")
+      .bail()
       .isIn(allowedSources)
       .withMessage(
         "Be sure that value is one of the following: " + allowedSources
@@ -64,6 +65,7 @@ export const validationForPostingNewLog = () => {
       .toUpperCase()
       .trim()
       .withMessage("Value is required")
+      .bail()
       .isIn(allowedSystems)
       .withMessage(
         "Be sure that value is one of the following: " + allowedSystems
@@ -73,6 +75,7 @@ export const validationForPostingNewLog = () => {
       .toUpperCase()
       .trim()
       .withMessage("Value is required")
+      .bail()
       .isIn(allowedCustomers)
       .withMessage(
         "Be sure that value is one of the following: " + allowedCustomers
