@@ -7,6 +7,8 @@ import errorMessageCreator from "./middlewares/errorMessageCreator";
 import requestTime from "./middlewares/requestTime";
 import helmet from "helmet";
 import basicAuth from "./middlewares/basicAuth";
+import db from "./config/databaseConfiguration";
+import { send } from "process";
 
 const app = express();
 const port = 4050;
