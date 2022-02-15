@@ -22,11 +22,14 @@ export const addNewLogToDatabase = async (req) => {
   const shortDescription = req.body[httpQry.body_shortDescription];
   const longDescription = req.body[httpQry.body_longDescription];
   const isShowingAnError = 0;
+  const creationTimeInMiliseconds = new Date(logWasCreated).valueOf();
+  const preventDuplicateId2 =
+    creationTimeInMiliseconds + "." + sendFromSystem + "." + sendFromCustomer;
 
   const queryResults = await db
     .promise()
     .query(
-      `INSERT INTO ${model.tab_tableName} (${model.col_logWasCreated},${model.col_logWasUploadedToApi},${model.col_sendFromSource},${model.col_sendFromSystem},${model.col_sendFromCustomer},${model.col_sendFromUser},${model.col_shortDescription},${model.col_longDescription},${model.col_isShowingAnError}) VALUES('${logWasCreated}','${logWasUploadedToApi}','${sendFromSource}','${sendFromSystem}','${sendFromCustomer}','${sendFromUser}','${shortDescription}','${longDescription}','${isShowingAnError}');`
+      `INSERT INTO ${model.tab_tableName} (${model.col_logWasCreated},${model.col_logWasUploadedToApi},${model.col_sendFromSource},${model.col_sendFromSystem},${model.col_sendFromCustomer},${model.col_sendFromUser},${model.col_shortDescription},${model.col_longDescription},${model.col_isShowingAnError},${model.col_preventDuplicateId2}) VALUES('${logWasCreated}','${logWasUploadedToApi}','${sendFromSource}','${sendFromSystem}','${sendFromCustomer}','${sendFromUser}','${shortDescription}','${longDescription}','${isShowingAnError}','${preventDuplicateId2}');`
     );
   return queryResults[0];
 };

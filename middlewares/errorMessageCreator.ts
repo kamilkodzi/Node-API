@@ -3,6 +3,14 @@ import ExpressError from "../helpers/ExpressError";
 const errorMessageCreator = (err, req, res, next) => {
   const { code, message, type } = err;
   switch (true) {
+    case code == "ER_DUP_ENTRY":
+      next(
+        new ExpressError(
+          "Already in database. To prevent duplicates in database, this request will be refused",
+          422
+        )
+      );
+      break;
     case code == "ER_SP_UNDECLARED_VAR":
       next(
         new ExpressError(
@@ -13,6 +21,7 @@ const errorMessageCreator = (err, req, res, next) => {
       break;
 
     case code == "ER_PARSE_ERROR":
+      console.log(err);
       next(
         new ExpressError(
           "There are problems while interacting with database - one or many arguments are declared wrongly",

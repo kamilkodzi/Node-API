@@ -13,6 +13,7 @@ export const systemlogsDBModel = {
   col_errorCode: "errorCode",
   col_errorDescription: "errorDescription",
   col_comment: "comment",
+  col_preventDuplicateId2:"preventDuplicateId2"
 };
 
 export const loggerUsers = {
