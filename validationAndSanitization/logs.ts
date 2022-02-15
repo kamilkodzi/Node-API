@@ -7,12 +7,12 @@ import {
   allowedSystems,
 } from "../config/consts";
 
-export const getLogsParamMatchSchema = [
+const structureSchemaForGetMethod = [
   httpQry.query_page,
   httpQry.query_rowslimit,
 ];
 
-export const postLogParamMatchSchema = [
+const structureSchemaForPostMethod = [
   httpQry.body_logWasCreated,
   httpQry.body_sendFromSource,
   httpQry.body_sendFromSystem,
@@ -22,7 +22,7 @@ export const postLogParamMatchSchema = [
   httpQry.body_shortDescription,
 ];
 
-export const validationForGettingLatestLogs = (): ValidationChain[] => {
+const contentValidationforGetMethod = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
       .optional()
@@ -41,7 +41,7 @@ export const validationForGettingLatestLogs = (): ValidationChain[] => {
   ];
 };
 
-export const validationForPostingNewLog = () => {
+const contentValidationforPostMethod = () => {
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
@@ -97,3 +97,11 @@ export const validationForPostingNewLog = () => {
     ]),
   ];
 };
+
+const logsValidation = {
+  structureSchemaForGetMethod,
+  structureSchemaForPostMethod,
+  contentValidationforGetMethod,
+  contentValidationforPostMethod,
+};
+export default logsValidation;

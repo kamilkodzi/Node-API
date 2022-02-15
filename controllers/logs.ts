@@ -1,10 +1,7 @@
 import getOffset from "../helpers/offsetQueries";
-import { addNewLogToDatabase, getLatestLogsQuery } from "../services/logs";
+import logsService from "../services/logs";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
-import {
-  generateGetResponse,
-  generatePostResponse,
-} from "../helpers/apiAnswerGenerator";
+import apiResponseCreator from "../helpers/apiResponseGenerator";
 
 const redirectToLogsRoute = (req, res, next) => {
   const page = httpQry.query_page;
@@ -16,14 +13,13 @@ const getLatestCreatedLogs = async (req, res, next) => {
   const page = req.query[httpQry.query_page];
   const rowslimit = req.query[httpQry.query_rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);
-  const queryResults: [] = await getLatestLogsQuery(
-    pageTurnedInToOffset,
-    rowslimit
-  ).then((data: []) => {
-    return data;
-  });
+  const queryResults: [] = await logsService
+    .getLogs(pageTurnedInToOffset, rowslimit)
+    .then((data: []) => {
+      return data;
+    });
   const queryResultsLenght = queryResults.length;
-  const apiAnswer = generateGetResponse(
+  const apiAnswer = apiResponseCreator.createGetResponse(
     queryResults,
     rowslimit,
     page,
@@ -33,8 +29,8 @@ const getLatestCreatedLogs = async (req, res, next) => {
 };
 
 const addNewLog = async (req, res, next) => {
-  const queryResults = await addNewLogToDatabase(req);
-  const apiAnswer = generatePostResponse(queryResults);
+  const queryResults = await logsService.addNewLog(req);
+  const apiAnswer = apiResponseCreator.createPostResponse(queryResults);
   res.status(201).send(apiAnswer);
 };
 

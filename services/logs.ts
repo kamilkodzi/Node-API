@@ -2,7 +2,7 @@ import db from "../config/databaseConfiguration";
 import { systemlogsDBModel as model } from "../config/databaseSchema";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
 
-export const getLatestLogsQuery = async (offset: number, rowslimit: number) => {
+export const getLogs = async (offset: number, rowslimit: number) => {
   const queryResults = await db
     .promise()
     .query(
@@ -12,7 +12,7 @@ export const getLatestLogsQuery = async (offset: number, rowslimit: number) => {
   return queryResults[0];
 };
 
-export const addNewLogToDatabase = async (req) => {
+export const addNewLog = async (req) => {
   const logWasCreated = req.body[httpQry.body_logWasCreated];
   const logWasUploadedToApi = req.requestTime;
   const sendFromSource = req.body[httpQry.body_sendFromSource];
@@ -33,3 +33,9 @@ export const addNewLogToDatabase = async (req) => {
     );
   return queryResults[0];
 };
+
+const logsService = {
+  getLogs,
+  addNewLog,
+};
+export default logsService;

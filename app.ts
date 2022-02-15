@@ -4,9 +4,9 @@ import logsRoutes from "./routes/logs";
 import errorsRoutes from "./routes/errors";
 import ExpressError from "./helpers/ExpressError";
 import errorMessageCreator from "./middlewares/errorMessageCreator";
-import { requestTime } from "./middlewares/requestTime";
+import requestTime from "./middlewares/requestTime";
 import helmet from "helmet";
-import { basicAuth } from "./middlewares/basicAuth";
+import basicAuth from "./middlewares/basicAuth";
 
 const app = express();
 const port = 4050;

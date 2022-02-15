@@ -7,12 +7,12 @@ import {
   allowedSystems,
 } from "../config/consts";
 
-export const getErrorsParamMatchSchema = [
+const structureSchemaForGetMethod = [
   httpQry.query_page,
   httpQry.query_rowslimit,
 ];
 
-export const postErrorParamMatchSchema = [
+const structureSchemaForPostMethod = [
   httpQry.body_logWasCreated,
   httpQry.body_sendFromSource,
   httpQry.body_sendFromSystem,
@@ -22,7 +22,7 @@ export const postErrorParamMatchSchema = [
   httpQry.body_errorDescription,
 ];
 
-export const validationForLatestErrors = (): ValidationChain[] => {
+const contentValidationforGetMethod = (): ValidationChain[] => {
   return [
     query(httpQry.query_page)
       .optional()
@@ -41,7 +41,7 @@ export const validationForLatestErrors = (): ValidationChain[] => {
   ];
 };
 
-export const validationForAddingNewError = () => {
+const contentValidationforPostMethod = () => {
   return [
     body(httpQry.body_logWasCreated)
       .notEmpty()
@@ -104,3 +104,11 @@ export const validationForAddingNewError = () => {
     ).trim(),
   ];
 };
+
+const errorsValidation = {
+  structureSchemaForGetMethod,
+  structureSchemaForPostMethod,
+  contentValidationforGetMethod,
+  contentValidationforPostMethod,
+};
+export default errorsValidation;

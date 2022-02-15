@@ -1,8 +1,7 @@
 import ExpressError from "../helpers/ExpressError";
-import { userController } from "../controllers/users";
-import { asyncErrorHandler } from "../helpers/errorsHandlers";
+import usersController from "../controllers/users";
 
-export const basicAuth = async (req, res, next) => {
+const basicAuth = async (req, res, next) => {
   if (
     !req.headers.authorization ||
     req.headers.authorization.indexOf("Basic ") === -1
@@ -15,7 +14,7 @@ export const basicAuth = async (req, res, next) => {
     );
     const [username, password] = credentials.split(":");
     try {
-      const user = await userController.authenticate({ username, password });
+      const user = await usersController.authenticate({ username, password });
       if (!user)
         next(new ExpressError("Invalid Authentication Credentials", 401));
       req.user = user;
@@ -25,3 +24,5 @@ export const basicAuth = async (req, res, next) => {
     }
   }
 };
+
+export default basicAuth;

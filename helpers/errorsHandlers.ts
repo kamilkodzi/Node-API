@@ -1,13 +1,13 @@
 import { validationResult } from "express-validator";
 import ExpressError from "./ExpressError";
 
-export const asyncErrorHandler = (fn) => {
+const asyncErrCatch = (fn) => {
   return function (req, res, next) {
     fn(req, res, next).catch((e) => next(e));
   };
 };
 
-export const validationErrorsHandler = (req, res, next) => {
+const validationErrCatch = (req, res, next) => {
   const errors = validationResult(req);
 
   let concatenatedErrorMessageFromValidation = "";
@@ -49,3 +49,10 @@ export const validationErrorsHandler = (req, res, next) => {
     next(new ExpressError(extractedErrors(), 400));
   }
 };
+
+const errorHandler = {
+  asyncErrCatch,
+  validationErrCatch,
+};
+
+export default errorHandler;

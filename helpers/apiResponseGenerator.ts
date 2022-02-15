@@ -2,9 +2,8 @@ import {
   apiResponseText as apiRes,
   httpBodyAndQueriesConsts,
 } from "../config/consts";
-import apiConfig from "../config/apiConfig";
 
-export const generateGetResponse = (
+const createGetResponse = (
   dataFromDatabase,
   rowslimitSendByClient,
   pageSendByClient,
@@ -26,10 +25,13 @@ export const generateGetResponse = (
   };
 };
 
-export const generatePostResponse = (data) => {
+const createPostResponse = (data) => {
   const postResponseId = apiRes.post_responseId;
 
   return {
     [postResponseId]: data["insertId"],
   };
 };
+
+const apiResponseCreator = { createGetResponse, createPostResponse };
+export default apiResponseCreator;

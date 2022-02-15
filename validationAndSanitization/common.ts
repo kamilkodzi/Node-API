@@ -1,8 +1,6 @@
 import ExpressError from "../helpers/ExpressError";
 
-export const checkThatSendParamsMatchSchema = (
-  arrayWithAcceptableParams: string[]
-) => {
+const structureValidation = (arrayWithAcceptableParams: string[]) => {
   return (req, res, next) => {
     if (req.query == {} && req.body == {}) {
       next();
@@ -36,3 +34,6 @@ export const checkThatSendParamsMatchSchema = (
     next();
   };
 };
+
+const commonValidation = { structureValidation };
+export default commonValidation;

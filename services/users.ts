@@ -20,6 +20,8 @@ const authenticateViaBasicAuth = async (username, password) => {
   }
 };
 
-export const userService = {
+const userService = {
   authenticateViaBasicAuth,
 };
+
+export default userService;

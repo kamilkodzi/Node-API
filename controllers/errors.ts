@@ -1,27 +1,20 @@
 import getOffset from "../helpers/offsetQueries";
-import {
-  getLatestErrorsQuery,
-  addNewErrorToDatabase,
-} from "../services/errors";
+import errorsService from "../services/errors";
+import apiResponseCreator from "../helpers/apiResponseGenerator";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
-import {
-  generateGetResponse,
-  generatePostResponse,
-} from "../helpers/apiAnswerGenerator";
 
 const getLatestCreatedErrors = async (req, res, next) => {
   const page = req.query[httpQry.query_page];
   const rowslimit = req.query[httpQry.query_rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);
-  const queryResults = await getLatestErrorsQuery(
-    pageTurnedInToOffset,
-    rowslimit
-  ).then((data: []) => {
-    return data;
-  });
+  const queryResults = await errorsService
+    .getErrors(pageTurnedInToOffset, rowslimit)
+    .then((data: []) => {
+      return data;
+    });
   const queryResultsLenght = queryResults.length;
-  
-  const apiAnswer = generateGetResponse(
+
+  const apiAnswer = apiResponseCreator.createGetResponse(
     queryResults,
     rowslimit,
     page,
@@ -31,8 +24,8 @@ const getLatestCreatedErrors = async (req, res, next) => {
 };
 
 const addNewError = async (req, res, next) => {
-  const queryResults = await addNewErrorToDatabase(req);
-  const apiAnswer = generatePostResponse(queryResults);
+  const queryResults = await errorsService.addNewError(req);
+  const apiAnswer = apiResponseCreator.createPostResponse(queryResults);
   res.status(201).send(apiAnswer);
 };
 

@@ -1,43 +1,32 @@
-import {
-  asyncErrorHandler,
-  validationErrorsHandler,
-} from "../helpers/errorsHandlers";
-import {
-  validationForLatestErrors,
-  validationForAddingNewError,
-  getErrorsParamMatchSchema,
-  postErrorParamMatchSchema,
-} from "../validationAndSanitization/errors";
 import { Router } from "express";
-import { mutatePostQueryDescriptionsIfUndefined } from "../mutators/common";
+import errorHandler from "../helpers/errorsHandlers";
+import errorsValidation from "../validationAndSanitization/errors";
 import errorControler from "../controllers/errors";
-import { mutateFirstPageAndPageIfUndefined } from "../mutators/common";
-import { checkThatSendParamsMatchSchema } from "../validationAndSanitization/common";
+import mutation from "../mutators/common";
+import commonValidation from "../validationAndSanitization/common";
 const router = Router();
 
 router
   .route("/error")
-  .get((req, res) => {
-    res.send("TBD");
-  })
   .post(
-    checkThatSendParamsMatchSchema(postErrorParamMatchSchema),
-    validationForAddingNewError(),
-    validationErrorsHandler,
-    mutatePostQueryDescriptionsIfUndefined,
-    asyncErrorHandler(errorControler.addNewError)
+    commonValidation.structureValidation(
+      errorsValidation.structureSchemaForPostMethod
+    ),
+    errorsValidation.contentValidationforPostMethod(),
+    errorHandler.validationErrCatch,
+    mutation.changeDescriptionIfUndefined,
+    errorHandler.asyncErrCatch(errorControler.addNewError)
   );
 router
   .route("/errors")
   .get(
-    checkThatSendParamsMatchSchema(getErrorsParamMatchSchema),
-    validationForLatestErrors(),
-    validationErrorsHandler,
-    mutateFirstPageAndPageIfUndefined,
-    asyncErrorHandler(errorControler.getLatestCreatedErrors)
-  )
-  .post((req, res) => {
-    res.send("TBD");
-  });
+    commonValidation.structureValidation(
+      errorsValidation.structureSchemaForGetMethod
+    ),
+    errorsValidation.contentValidationforGetMethod(),
+    errorHandler.validationErrCatch,
+    mutation.changePageIfUndefined,
+    errorHandler.asyncErrCatch(errorControler.getLatestCreatedErrors)
+  );
 
 export default router;

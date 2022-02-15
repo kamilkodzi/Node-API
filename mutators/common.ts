@@ -1,7 +1,7 @@
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
 import apiConfig from "../config/apiConfig";
 
-export const mutateFirstPageAndPageIfUndefined = (req, res, next) => {
+export const changePageIfUndefined = (req, res, next) => {
   let page = req.query[`${httpQry.query_page}`];
   let rowslimit = req.query[`${httpQry.query_rowslimit}`];
   const MaxRowsPerGetRequest = apiConfig.maximumRowsPerGetRequest;
@@ -15,7 +15,7 @@ export const mutateFirstPageAndPageIfUndefined = (req, res, next) => {
   next();
 };
 
-export const mutatePostQueryDescriptionsIfUndefined = (req, res, next) => {
+export const changeDescriptionIfUndefined = (req, res, next) => {
   let shortDescription = req.body[`${httpQry.body_shortDescription}`];
   let longDescription = req.body[`${httpQry.body_longDescription}`];
 
@@ -27,3 +27,9 @@ export const mutatePostQueryDescriptionsIfUndefined = (req, res, next) => {
 
   next();
 };
+
+const mutation = {
+  changePageIfUndefined,
+  changeDescriptionIfUndefined,
+};
+export default mutation;

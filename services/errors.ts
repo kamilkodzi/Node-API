@@ -2,10 +2,7 @@ import db from "../config/databaseConfiguration";
 import { systemlogsDBModel as model } from "../config/databaseSchema";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
 
-export const getLatestErrorsQuery = async (
-  offset: number,
-  rowslimit: number
-) => {
+export const getErrors = async (offset: number, rowslimit: number) => {
   const queryResults = await db
     .promise()
     .query(
@@ -15,7 +12,7 @@ export const getLatestErrorsQuery = async (
   return queryResults[0];
 };
 
-export const addNewErrorToDatabase = async (req) => {
+export const addNewError = async (req) => {
   const logWasCreated = req.body[httpQry.body_logWasCreated];
   const logWasUploadedToApi = req.requestTime;
   const sendFromSource = req.body[httpQry.body_sendFromSource];
@@ -38,3 +35,9 @@ export const addNewErrorToDatabase = async (req) => {
     );
   return queryResults[0];
 };
+
+const errorsService = {
+  getErrors,
+  addNewError,
+};
+export default errorsService;
