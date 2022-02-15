@@ -13,14 +13,6 @@ const redirectToLogsRoute = (req, res, next) => {
 };
 
 const getLatestCreatedLogs = async (req, res, next) => {
-  console.log(req.headers.authorization);
-  console.log(btoa("kamil:123"));
-  const base64Credentials = req.headers.authorization.split(" ")[1];
-  const credentials = Buffer.from(base64Credentials, "base64").toString(
-    "ascii"
-  );
-  const [username, password] = credentials.split(":");
-  console.log(username, password);
   const page = req.query[httpQry.query_page];
   const rowslimit = req.query[httpQry.query_rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);

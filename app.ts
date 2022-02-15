@@ -6,12 +6,15 @@ import ExpressError from "./helpers/ExpressError";
 import errorMessageCreator from "./middlewares/errorMessageCreator";
 import { requestTime } from "./middlewares/requestTime";
 import helmet from "helmet";
+import { basicAuth } from "./middlewares/basicAuth";
+
 const app = express();
 const port = 4050;
 
 app.use(helmet());
 app.use(express.json());
 app.use(requestTime);
+app.use(basicAuth);
 
 app.use(logsRoutes);
 app.use(errorsRoutes);
