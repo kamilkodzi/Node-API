@@ -45,7 +45,6 @@ const validationErrCatch = (req, res, next) => {
         .toString()
         .trim();
     };
-
     next(new ExpressError(extractedErrors(), 400));
   }
 };

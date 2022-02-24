@@ -10,14 +10,14 @@ import basicAuth from "./middlewares/basicAuth";
 
 const app = express();
 const port = 4050;
+app.use(express.json());
+
 
 app.use(helmet());
-app.use(express.json());
 app.use(requestTime);
-app.use(basicAuth);
 
-app.use(logsRoutes);
-app.use(errorsRoutes);
+app.use(basicAuth, logsRoutes);
+app.use(basicAuth, errorsRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Server could not understand your request", 400));
@@ -31,6 +31,19 @@ app.use((err, req, res, next) => {
     message: message,
   });
 });
+
+let clearCache;
+if (process.env.NODE_ENV === "development") {
+  const { cache } = require;
+  clearCache = (except) => {
+    for (let key in cache)
+      if (!except.includes(key) && key.indexOf("/node_modules/") === -1)
+        delete cache[key];
+  };
+} else {
+  clearCache = () => {};
+}
+
 app.listen(port, () => {
   console.log(`Logger is listening on port ${port}`);
 });

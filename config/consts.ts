@@ -19,9 +19,8 @@ export const apiResponseText = {
   get_responsePage: "page",
   get_responseMeta: "meta",
   get_responseData: "data",
-  get_responseCountOfRowsReturnedByQuery:"rows",
+  get_responseCountOfRowsReturnedByQuery: "rows",
   post_responseId: "insertId",
-  
 };
 
 export const allowedCustomers = [
@@ -30,5 +29,5 @@ export const allowedCustomers = [
   "ACME",
   "TEST-CUSTOMER",
 ];
-export const allowedSources = ["KAMILPC", "DANIELPC"];
+export const allowedSources = ["KAMILPC", "DANIELPC", "VERR.DBF"];
 export const allowedSystems = ["RUOM", "POSTMAN", "BIOTOP", "EO"];

@@ -6,6 +6,8 @@ import apiResponseCreator from "../helpers/apiResponseGenerator";
 const redirectToLogsRoute = (req, res, next) => {
   const page = httpQry.query_page;
   const rowlimits = httpQry.query_rowslimit;
+  res.header("Authorization", req.header["Authorization"]);
+  res.user = req.user;
   res.redirect(`/logs?${page}=1&${rowlimits}=1`);
 };
 

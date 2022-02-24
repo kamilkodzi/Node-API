@@ -11,6 +11,9 @@ router
   .route("/log")
   .get(logsControler.redirectToLogsRoute)
   .post(
+    (req, res, next) => {
+      next();
+    },
     commonValidation.structureValidation(
       logsValidation.structureSchemaForPostMethod
     ),
