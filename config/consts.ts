@@ -1,6 +1,9 @@
 export const httpBodyAndQueriesConsts = {
   query_page: "page",
   query_rowslimit: "rowslimit",
+  query_source:"source",
+  query_customer:"customer",
+  query_system:"system",
   body_logWasCreated: "logWasCreated",
   body_logWasUploadedToApi: "logWasUploadedToApi",
   body_sendFromSource: "sendFromSource",

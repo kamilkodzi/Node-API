@@ -7,17 +7,18 @@ import errorMessageCreator from "./middlewares/errorMessageCreator";
 import requestTime from "./middlewares/requestTime";
 import helmet from "helmet";
 import basicAuth from "./middlewares/basicAuth";
+import lastUpdateRoutes from "./routes/lastUpdate";
 
 const app = express();
 const port = 4050;
 app.use(express.json());
-
 
 app.use(helmet());
 app.use(requestTime);
 
 app.use(basicAuth, logsRoutes);
 app.use(basicAuth, errorsRoutes);
+app.use(basicAuth, lastUpdateRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Server could not understand your request", 400));

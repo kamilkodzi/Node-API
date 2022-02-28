@@ -24,7 +24,13 @@ export const addNewLog = async (req) => {
   const isShowingAnError = 0;
   const creationTimeInMiliseconds = new Date(logWasCreated).valueOf();
   const preventDuplicateId2 =
-    creationTimeInMiliseconds + "." + sendFromSystem + "." + sendFromCustomer;
+    creationTimeInMiliseconds +
+    "." +
+    sendFromSystem +
+    "." +
+    sendFromSource +
+    "." +
+    sendFromCustomer;
 
   const queryResults = await db
     .promise()
