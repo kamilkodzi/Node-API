@@ -1,18 +1,13 @@
 import { query } from "express-validator";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
-import {
-  allowedCustomers,
-  allowedSources,
-  allowedSystems,
-} from "../config/consts";
-
+import allowedResourcesController from "../controllers/allowedResources";
+import commonValidators from "../validationAndSanitization/common";
 
 const structureSchemaForGetLastUpdate = [
   httpQry.query_source,
   httpQry.query_customer,
   httpQry.query_system,
 ];
-
 
 const contentValidationforGetMethod = () => {
   return [
@@ -22,9 +17,11 @@ const contentValidationforGetMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedSources)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedSources
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedSources
+        )
       ),
     query(httpQry.query_customer)
       .notEmpty()
@@ -32,9 +29,11 @@ const contentValidationforGetMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedCustomers)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedCustomers
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedCustomers
+        )
       ),
     query(httpQry.query_system)
       .notEmpty()
@@ -42,15 +41,16 @@ const contentValidationforGetMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedSystems)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedSystems
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedSystems
+        )
       ),
   ];
 };
 
-const lastUpdateValidation = {
+export = {
   structureSchemaForGetLastUpdate,
   contentValidationforGetMethod,
 };
-export default lastUpdateValidation;

@@ -1,11 +1,8 @@
 import { body, oneOf, query, ValidationChain } from "express-validator";
 import apiConfig from "../config/apiConfig";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
-import {
-  allowedCustomers,
-  allowedSources,
-  allowedSystems,
-} from "../config/consts";
+import allowedResourcesController from "../controllers/allowedResources";
+import commonValidators from "../validationAndSanitization/common";
 
 const structureSchemaForGetMethod = [
   httpQry.query_page,
@@ -56,9 +53,11 @@ const contentValidationforPostMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedSources)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedSources
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedSources
+        )
       ),
     body(httpQry.body_sendFromSystem)
       .notEmpty()
@@ -66,9 +65,11 @@ const contentValidationforPostMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedSystems)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedSystems
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedSystems
+        )
       ),
     body(httpQry.body_sendFromCustomer)
       .notEmpty()
@@ -76,9 +77,11 @@ const contentValidationforPostMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedCustomers)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedCustomers
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedCustomers
+        )
       ),
     body(httpQry.body_sendFromUser).notEmpty().withMessage("Value is required"),
     oneOf([
@@ -97,11 +100,9 @@ const contentValidationforPostMethod = () => {
     ]),
   ];
 };
-
-const logsValidation = {
+export = {
   structureSchemaForGetMethod,
   structureSchemaForPostMethod,
   contentValidationforGetMethod,
   contentValidationforPostMethod,
 };
-export default logsValidation;

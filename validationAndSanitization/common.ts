@@ -1,5 +1,4 @@
 import ExpressError from "../helpers/ExpressError";
-import allowedResourcesController from "../controllers/allowedResources";
 
 const structureValidation = (arrayWithAcceptableParams: string[]) => {
   return (req, res, next) => {
@@ -49,8 +48,7 @@ const chceckThatValueIsAllowedRosource = (
   return true;
 };
 
-const commonValidation = {
+export = {
   structureValidation,
   chceckThatValueIsAllowedRosource,
 };
-export default commonValidation;

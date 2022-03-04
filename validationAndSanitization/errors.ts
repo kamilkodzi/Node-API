@@ -1,11 +1,6 @@
 import { body, query, ValidationChain } from "express-validator";
 import apiConfig from "../config/apiConfig";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
-import {
-  allowedCustomers,
-  allowedSources,
-  allowedSystems,
-} from "../config/consts";
 import allowedResourcesController from "../controllers/allowedResources";
 import commonValidators from "../validationAndSanitization/common";
 
@@ -43,7 +38,6 @@ const contentValidationforGetMethod = (): ValidationChain[] => {
   ];
 };
 
-
 const contentValidationforPostMethod = () => {
   return [
     body(httpQry.body_logWasCreated)
@@ -59,9 +53,11 @@ const contentValidationforPostMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedSources)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedSources
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedSources
+        )
       ),
     body(httpQry.body_sendFromSystem)
       .notEmpty()
@@ -75,16 +71,17 @@ const contentValidationforPostMethod = () => {
           allowedResourcesController.getAllowedSystems
         )
       ),
-
     body(httpQry.body_sendFromCustomer)
       .notEmpty()
       .toUpperCase()
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedCustomers)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedCustomers
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedCustomers
+        )
       ),
     body(httpQry.body_errorCode)
       .notEmpty()
@@ -111,10 +108,9 @@ const contentValidationforPostMethod = () => {
   ];
 };
 
-const errorsValidation = {
+export = {
   structureSchemaForGetMethod,
   structureSchemaForPostMethod,
   contentValidationforGetMethod,
   contentValidationforPostMethod,
 };
-export default errorsValidation;
