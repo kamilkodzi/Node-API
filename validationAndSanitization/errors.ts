@@ -1,8 +1,8 @@
 import { body, query, ValidationChain } from "express-validator";
 import apiConfig from "../config/apiConfig";
 import consts from "../config/consts";
-import allowedResourcesController from "../controllers/allowedResources";
 import commonValidators from "../validationAndSanitization/common";
+import AllowedResources from "../helpers/AllowedResources";
 
 const structureSchemaForGetMethod = [
   consts.httpBodyAndQueries.query_page,
@@ -56,7 +56,7 @@ const contentValidationforPostMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.allowedSources
+          AllowedResources.allowedSources
         )
       ),
     body(consts.httpBodyAndQueries.body_sendFromSystem)
@@ -68,7 +68,7 @@ const contentValidationforPostMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.allowedSystems
+          AllowedResources.allowedSystems
         )
       ),
     body(consts.httpBodyAndQueries.body_sendFromCustomer)
@@ -80,7 +80,7 @@ const contentValidationforPostMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.allowedCustomers
+          AllowedResources.allowedCustomers
         )
       ),
     body(consts.httpBodyAndQueries.body_errorCode)

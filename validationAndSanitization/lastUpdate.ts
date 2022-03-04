@@ -1,7 +1,7 @@
 import { query } from "express-validator";
 import consts from "../config/consts";
-import allowedResourcesController from "../controllers/allowedResources";
 import commonValidators from "../validationAndSanitization/common";
+import AllowedResources from "../helpers/AllowedResources";
 
 const structureSchemaForGetLastUpdate = [
   consts.httpBodyAndQueries.query_source,
@@ -20,7 +20,7 @@ const contentValidationforGetMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.allowedSources
+          AllowedResources.allowedSources
         )
       ),
     query(consts.httpBodyAndQueries.query_customer)
@@ -32,7 +32,7 @@ const contentValidationforGetMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.allowedCustomers
+          AllowedResources.allowedCustomers
         )
       ),
     query(consts.httpBodyAndQueries.query_system)
@@ -44,7 +44,7 @@ const contentValidationforGetMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.allowedSystems
+          AllowedResources.allowedSystems
         )
       ),
   ];
