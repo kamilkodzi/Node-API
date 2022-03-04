@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(requestTime);
 
-app.get("/refreshSystems", allowedController.refreshAllowedResources);
+app.get("/refreshSystems", allowedController.getRefreshAll);
 
 app.use(basicAuth, logsRoutes);
 app.use(basicAuth, errorsRoutes);

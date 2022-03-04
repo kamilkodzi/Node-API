@@ -1,7 +1,4 @@
-import {
-  apiResponseText as apiRes,
-  httpBodyAndQueriesConsts,
-} from "../config/consts";
+import consts from "../config/consts";
 
 const createGetResponse = (
   dataFromDatabase,
@@ -9,11 +6,12 @@ const createGetResponse = (
   pageSendByClient,
   queryResultsLenght
 ) => {
-  const responseDataText = apiRes.get_responseData;
-  const resonseMetaText = apiRes.get_responseMeta;
-  const responsePageText = apiRes.get_responsePage;
-  const responseRowLimits = httpBodyAndQueriesConsts.query_rowslimit;
-  const responseRowsAmountText = apiRes.get_responseCountOfRowsReturnedByQuery;
+  const responseDataText = consts.apiResponseText.get_responseData;
+  const resonseMetaText = consts.apiResponseText.get_responseMeta;
+  const responsePageText = consts.apiResponseText.get_responsePage;
+  const responseRowLimits = consts.httpBodyAndQueries.query_rowslimit;
+  const responseRowsAmountText =
+    consts.apiResponseText.get_responseCountOfRowsReturnedByQuery;
 
   return {
     [resonseMetaText]: {
@@ -26,7 +24,7 @@ const createGetResponse = (
 };
 
 const createPostResponse = (data) => {
-  const postResponseId = apiRes.post_responseId;
+  const postResponseId = consts.apiResponseText.post_responseId;
 
   return {
     [postResponseId]: data["insertId"],
@@ -38,10 +36,13 @@ const createAfterRefreshAllowedResourcesResponse = (
   sourcesResults,
   customersResults
 ) => {
-  const resonseMetaText = apiRes.get_responseMeta;
-  const responseSystemsRefreshText = apiRes.get_allowedResourcesSystems;
-  const responseSourcesRefreshText = apiRes.get_allowedResourcesSources;
-  const responseCustomersRefreshText = apiRes.get_allowedResourcesCustomers;
+  const resonseMetaText = consts.apiResponseText.get_responseMeta;
+  const responseSystemsRefreshText =
+    consts.apiResponseText.get_allowedResourcesSystems;
+  const responseSourcesRefreshText =
+    consts.apiResponseText.get_allowedResourcesSources;
+  const responseCustomersRefreshText =
+    consts.apiResponseText.get_allowedResourcesCustomers;
 
   return {
     [resonseMetaText]: {

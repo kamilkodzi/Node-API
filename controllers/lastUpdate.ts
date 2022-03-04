@@ -1,11 +1,11 @@
 import lastUpdateService from "../services/lastUpdate";
-import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+import consts from "../config/consts";
 import apiResponseCreator from "../helpers/apiResponseGenerator";
 
 const getLastUpdateDate = async (req, res, next) => {
-  const customer = req.query[httpQry.query_customer];
-  const source = req.query[httpQry.query_source];
-  const system = req.query[httpQry.query_system];
+  const customer = req.query[consts.httpBodyAndQueries.query_customer];
+  const source = req.query[consts.httpBodyAndQueries.query_source];
+  const system = req.query[consts.httpBodyAndQueries.query_system];
   const fixedRowslimit = 1;
   const fixedPageNumber = 1;
   const queryResults: [] = await lastUpdateService

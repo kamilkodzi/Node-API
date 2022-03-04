@@ -1,17 +1,17 @@
 import { query } from "express-validator";
-import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+import consts from "../config/consts";
 import allowedResourcesController from "../controllers/allowedResources";
 import commonValidators from "../validationAndSanitization/common";
 
 const structureSchemaForGetLastUpdate = [
-  httpQry.query_source,
-  httpQry.query_customer,
-  httpQry.query_system,
+  consts.httpBodyAndQueries.query_source,
+  consts.httpBodyAndQueries.query_customer,
+  consts.httpBodyAndQueries.query_system,
 ];
 
 const contentValidationforGetMethod = () => {
   return [
-    query(httpQry.query_source)
+    query(consts.httpBodyAndQueries.query_source)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -20,10 +20,10 @@ const contentValidationforGetMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.getAllowedSources
+          allowedResourcesController.allowedSources
         )
       ),
-    query(httpQry.query_customer)
+    query(consts.httpBodyAndQueries.query_customer)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -32,10 +32,10 @@ const contentValidationforGetMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.getAllowedCustomers
+          allowedResourcesController.allowedCustomers
         )
       ),
-    query(httpQry.query_system)
+    query(consts.httpBodyAndQueries.query_system)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -44,7 +44,7 @@ const contentValidationforGetMethod = () => {
       .custom((value) =>
         commonValidators.chceckThatValueIsAllowedRosource(
           value,
-          allowedResourcesController.getAllowedSystems
+          allowedResourcesController.allowedSystems
         )
       ),
   ];

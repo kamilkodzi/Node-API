@@ -1,31 +1,26 @@
 import dbSchema from "../config/databaseSchema";
 import allowedResourcesService from "../services/allowedResources";
 import apiResponseCreator from "../helpers/apiResponseGenerator";
-import {
-  allowedCustomers,
-  allowedSources,
-  allowedSystems,
-} from "../config/consts";
+import consts from "../config/consts";
 import ExpressError from "../helpers/ExpressError";
 
-var allowedCustomersSingleton = allowedCustomers;
-var allowedSourcesSingleton = allowedSources;
-var allowedSystemsSingleton = allowedSystems;
+var allowedCustomersSingleton = consts.allowedCustomers;
+var allowedSourcesSingleton = consts.allowedSources;
+var allowedSystemsSingleton = consts.allowedSystems;
 
-const refreshSources = async () => {};
-const refreshCustomers = async () => {};
-
-const refreshAllowedResources = async (req, res, next) => {
-  let systemRefreshStatus;
+const getRefreshAll = async (req, res, next) => {
+  let systemsRefreshStatus;
+  let sourcesRefreshStatus;
+  let customersRefreshStatus;
   let apiAnswer;
   try {
-    const systemRefreshStatus = await refreshSystems();
-    //Dodać Sources
-    //Dodać Customers
+    const systemsRefreshStatus = await refreshSystems();
+    const sourcesRefreshStatus = await refreshSources();
+    const customersRefreshStatus = await refreshCustomers();
     apiAnswer = apiResponseCreator.createAfterRefreshAllowedResourcesResponse(
-      systemRefreshStatus,
-      "N/A",
-      "N/A"
+      systemsRefreshStatus,
+      sourcesRefreshStatus,
+      customersRefreshStatus
     );
   } catch (error) {
     next(
@@ -36,6 +31,16 @@ const refreshAllowedResources = async (req, res, next) => {
     );
   }
   res.send(apiAnswer);
+};
+
+
+const refreshSources = async () => {};
+const refreshCustomers = async () => {
+  
+};
+
+const refreshResource = async () => {
+  
 };
 
 const refreshSystems = async () => {
@@ -69,22 +74,22 @@ const refreshSystems = async () => {
   return refreshResults;
 };
 
-const getAllowedSystems = () => {
+const allowedSystems = () => {
   return allowedSystemsSingleton;
 };
 
-const getAllowedSources = () => {
+const allowedSources = () => {
   return allowedSourcesSingleton;
 };
 
-const getAllowedCustomers = () => {
+const allowedCustomers = () => {
   return allowedCustomersSingleton;
 };
 
 export = {
   refreshSystems,
-  getAllowedSystems,
-  getAllowedSources,
-  getAllowedCustomers,
-  refreshAllowedResources,
+  allowedSystems,
+  allowedSources,
+  allowedCustomers,
+  getRefreshAll,
 };

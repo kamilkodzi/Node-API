@@ -1,4 +1,4 @@
-const httpBodyAndQueriesConsts = {
+const httpBodyAndQueries = {
   query_page: "page",
   query_rowslimit: "rowslimit",
   query_source: "source",
@@ -33,8 +33,8 @@ const allowedCustomers = ["SUNSETINDUSTRIES", "HALBA", "ACME", "TEST-CUSTOMER"];
 const allowedSources = ["KAMILPC", "DANIELPC", "VERR.DBF"];
 const allowedSystems = ["RUOM", "POSTMAN", "BIOTOP", "EO"];
 
-export {
-  httpBodyAndQueriesConsts,
+export = {
+  httpBodyAndQueries,
   apiResponseText,
   allowedCustomers,
   allowedSources,

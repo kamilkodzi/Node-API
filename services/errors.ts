@@ -1,6 +1,6 @@
 import db from "../config/databaseConfiguration";
 import dbSchema from "../config/databaseSchema";
-import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+import consts from "../config/consts";
 
 const getErrors = async (offset: number, rowslimit: number) => {
   const queryResults = await db
@@ -13,16 +13,22 @@ const getErrors = async (offset: number, rowslimit: number) => {
 };
 
 const addNewError = async (req) => {
-  const logWasCreated = req.body[httpQry.body_logWasCreated];
+  const logWasCreated = req.body[consts.httpBodyAndQueries.body_logWasCreated];
   const logWasUploadedToApi = req.requestTime;
-  const sendFromSource = req.body[httpQry.body_sendFromSource];
-  const sendFromSystem = req.body[httpQry.body_sendFromSystem];
-  const sendFromCustomer = req.body[httpQry.body_sendFromCustomer];
-  const sendFromUser = req.body[httpQry.body_sendFromUser];
-  const shortDescription = req.body[httpQry.body_shortDescription];
-  const longDescription = req.body[httpQry.body_longDescription];
-  const errorCode = req.body[httpQry.body_errorCode];
-  const errorDescription = req.body[httpQry.body_errorDescription];
+  const sendFromSource =
+    req.body[consts.httpBodyAndQueries.body_sendFromSource];
+  const sendFromSystem =
+    req.body[consts.httpBodyAndQueries.body_sendFromSystem];
+  const sendFromCustomer =
+    req.body[consts.httpBodyAndQueries.body_sendFromCustomer];
+  const sendFromUser = req.body[consts.httpBodyAndQueries.body_sendFromUser];
+  const shortDescription =
+    req.body[consts.httpBodyAndQueries.body_shortDescription];
+  const longDescription =
+    req.body[consts.httpBodyAndQueries.body_longDescription];
+  const errorCode = req.body[consts.httpBodyAndQueries.body_errorCode];
+  const errorDescription =
+    req.body[consts.httpBodyAndQueries.body_errorDescription];
   const isShowingAnError = 1;
   const creationTimeInMiliseconds = new Date(logWasCreated).valueOf();
   const preventDuplicateId2 =
