@@ -1,4 +1,4 @@
-import userService  from "../services/users";
+import userService from "../services/users";
 
 const authenticate = async ({ username, password }) => {
   const userNameToLowerCase = username.toLowerCase();
@@ -11,7 +11,6 @@ const authenticate = async ({ username, password }) => {
   }
 };
 
-const usersController = {
+export = {
   authenticate,
 };
-export default usersController;

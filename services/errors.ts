@@ -56,8 +56,7 @@ const addNewError = async (req) => {
   return queryResults[0];
 };
 
-const errorsService = {
+export = {
   getErrors,
   addNewError,
 };
-export default errorsService;

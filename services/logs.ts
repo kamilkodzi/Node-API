@@ -2,7 +2,7 @@ import db from "../config/databaseConfiguration";
 import dbSchema from "../config/databaseSchema";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
 
-export const getLogs = async (offset: number, rowslimit: number) => {
+const getLogs = async (offset: number, rowslimit: number) => {
   const queryResults = await db
     .promise()
     .query(
@@ -12,7 +12,7 @@ export const getLogs = async (offset: number, rowslimit: number) => {
   return queryResults[0];
 };
 
-export const addNewLog = async (req) => {
+const addNewLog = async (req) => {
   const logWasCreated = req.body[httpQry.body_logWasCreated];
   const logWasUploadedToApi = req.requestTime;
   const sendFromSource = req.body[httpQry.body_sendFromSource];
@@ -52,8 +52,7 @@ export const addNewLog = async (req) => {
   return queryResults[0];
 };
 
-const logsService = {
+export = {
   getLogs,
   addNewLog,
 };
-export default logsService;

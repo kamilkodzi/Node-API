@@ -8,9 +8,7 @@ import requestTime from "./middlewares/requestTime";
 import helmet from "helmet";
 import basicAuth from "./middlewares/basicAuth";
 import lastUpdateRoutes from "./routes/lastUpdate";
-// import allowedResources from "./validationAndSanitization/allowedResources";
 import allowedController from "./controllers/allowedResources";
-import errorHandler from "./helpers/errorsHandlers";
 
 const app = express();
 const port = 4050;
@@ -36,18 +34,6 @@ app.use((err, req, res, next) => {
     message: message,
   });
 });
-
-let clearCache;
-if (process.env.NODE_ENV === "development") {
-  const { cache } = require;
-  clearCache = (except) => {
-    for (let key in cache)
-      if (!except.includes(key) && key.indexOf("/node_modules/") === -1)
-        delete cache[key];
-  };
-} else {
-  clearCache = () => {};
-}
 
 app.listen(port, () => {
   console.log(`Logger is listening on port ${port}`);

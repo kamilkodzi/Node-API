@@ -38,12 +38,10 @@ const customersTable = {
   col_systemName: "customerName",
 };
 
-const dbSchema = {
+export = {
   systemlogsTablel,
   loggerusersTable,
   systemsTable,
   sourcesTable,
   customersTable,
 };
-
-export default dbSchema;

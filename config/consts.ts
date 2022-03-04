@@ -1,4 +1,4 @@
-export const httpBodyAndQueriesConsts = {
+const httpBodyAndQueriesConsts = {
   query_page: "page",
   query_rowslimit: "rowslimit",
   query_source: "source",
@@ -18,7 +18,7 @@ export const httpBodyAndQueriesConsts = {
   body_comment: "comment",
 };
 
-export const apiResponseText = {
+const apiResponseText = {
   get_responsePage: "page",
   get_responseMeta: "meta",
   get_responseData: "data",
@@ -29,11 +29,14 @@ export const apiResponseText = {
   get_allowedResourcesCustomers: "customers",
 };
 
-export const allowedCustomers = [
-  "SUNSETINDUSTRIES",
-  "HALBA",
-  "ACME",
-  "TEST-CUSTOMER",
-];
-export const allowedSources = ["KAMILPC", "DANIELPC", "VERR.DBF"];
-export const allowedSystems = ["RUOM", "POSTMAN", "BIOTOP", "EO"];
+const allowedCustomers = ["SUNSETINDUSTRIES", "HALBA", "ACME", "TEST-CUSTOMER"];
+const allowedSources = ["KAMILPC", "DANIELPC", "VERR.DBF"];
+const allowedSystems = ["RUOM", "POSTMAN", "BIOTOP", "EO"];
+
+export {
+  httpBodyAndQueriesConsts,
+  apiResponseText,
+  allowedCustomers,
+  allowedSources,
+  allowedSystems,
+};

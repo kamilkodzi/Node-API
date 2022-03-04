@@ -1,7 +1,7 @@
 import db from "../config/databaseConfiguration";
 import dbSchema from "../config/databaseSchema";
 
-export const getLastUpdate = async (
+const getLastUpdate = async (
   customer: string,
   source: string,
   system: string
@@ -15,7 +15,6 @@ export const getLastUpdate = async (
   return queryResults[0];
 };
 
-const lastUpdateService = {
+export = {
   getLastUpdate,
 };
-export default lastUpdateService;
