@@ -6,11 +6,13 @@ import {
   allowedSystems,
 } from "../config/consts";
 
+
 const structureSchemaForGetLastUpdate = [
   httpQry.query_source,
   httpQry.query_customer,
   httpQry.query_system,
 ];
+
 
 const contentValidationforGetMethod = () => {
   return [

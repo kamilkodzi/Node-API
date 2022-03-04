@@ -8,13 +8,17 @@ import requestTime from "./middlewares/requestTime";
 import helmet from "helmet";
 import basicAuth from "./middlewares/basicAuth";
 import lastUpdateRoutes from "./routes/lastUpdate";
+// import allowedResources from "./validationAndSanitization/allowedResources";
+import allowedController from "./controllers/allowedResources";
+import errorHandler from "./helpers/errorsHandlers";
 
 const app = express();
 const port = 4050;
 app.use(express.json());
-
 app.use(helmet());
 app.use(requestTime);
+
+app.get("/refreshSystems", allowedController.refreshAllowedResources);
 
 app.use(basicAuth, logsRoutes);
 app.use(basicAuth, errorsRoutes);

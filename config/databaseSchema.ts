@@ -1,4 +1,4 @@
-export const systemlogsDBModel = {
+const systemlogsTablel = {
   tab_tableName: "systemlogs",
   col_id: "id",
   col_logWasCreated: "logWasCreated",
@@ -13,12 +13,37 @@ export const systemlogsDBModel = {
   col_errorCode: "errorCode",
   col_errorDescription: "errorDescription",
   col_comment: "comment",
-  col_preventDuplicateId2:"preventDuplicateId2"
+  col_preventDuplicateId2: "preventDuplicateId2",
 };
 
-export const loggerUsers = {
+const loggerusersTable = {
   tab_tableName: "loggerusers",
   col_username: "username",
   col_password: "password",
   col_isAdmin: "isAdmin",
 };
+
+const systemsTable = {
+  tab_tableName: "systemstable",
+  col_systemName: "systemName",
+};
+
+const sourcesTable = {
+  tab_tableName: "sourcestable",
+  col_systemName: "sourceName",
+};
+
+const customersTable = {
+  tab_tableName: "customerstable",
+  col_systemName: "customerName",
+};
+
+const dbSchema = {
+  systemlogsTablel,
+  loggerusersTable,
+  systemsTable,
+  sourcesTable,
+  customersTable,
+};
+
+export default dbSchema;

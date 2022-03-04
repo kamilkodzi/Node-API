@@ -6,6 +6,8 @@ import {
   allowedSources,
   allowedSystems,
 } from "../config/consts";
+import allowedResourcesController from "../controllers/allowedResources";
+import commonValidators from "../validationAndSanitization/common";
 
 const structureSchemaForGetMethod = [
   httpQry.query_page,
@@ -41,6 +43,7 @@ const contentValidationforGetMethod = (): ValidationChain[] => {
   ];
 };
 
+
 const contentValidationforPostMethod = () => {
   return [
     body(httpQry.body_logWasCreated)
@@ -66,10 +69,13 @@ const contentValidationforPostMethod = () => {
       .trim()
       .withMessage("Value is required")
       .bail()
-      .isIn(allowedSystems)
-      .withMessage(
-        "Be sure that value is one of the following: " + allowedSystems
+      .custom((value) =>
+        commonValidators.chceckThatValueIsAllowedRosource(
+          value,
+          allowedResourcesController.getAllowedSystems
+        )
       ),
+
     body(httpQry.body_sendFromCustomer)
       .notEmpty()
       .toUpperCase()

@@ -2,8 +2,10 @@ import getOffset from "../helpers/offsetQueries";
 import errorsService from "../services/errors";
 import apiResponseCreator from "../helpers/apiResponseGenerator";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
+// import allowedResources from "../validationAndSanitization/allowedResources";
 
 const getLatestCreatedErrors = async (req, res, next) => {
+  // console.log(allowedResources.getAllowedSystems());
   const page = req.query[httpQry.query_page];
   const rowslimit = req.query[httpQry.query_rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);

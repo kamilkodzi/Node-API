@@ -1,12 +1,12 @@
 import db from "../config/databaseConfiguration";
-import { loggerUsers as model } from "../config/databaseSchema";
+import dbSchema from "../config/databaseSchema";
 
 const authenticateViaBasicAuth = async (username, password) => {
   try {
     const queryResults = await db
       .promise()
       .query(
-        `SELECT * FROM ${model.tab_tableName} WHERE ${model.col_username} = ? AND ${model.col_password} = ?`,
+        `SELECT * FROM ${dbSchema.loggerusersTable.tab_tableName} WHERE ${dbSchema.loggerusersTable.col_username} = ? AND ${dbSchema.loggerusersTable.col_password} = ?`,
         [username, password]
       );
     if (queryResults[0][0] !== []) {

@@ -1,4 +1,5 @@
 import ExpressError from "../helpers/ExpressError";
+import allowedResourcesController from "../controllers/allowedResources";
 
 const structureValidation = (arrayWithAcceptableParams: string[]) => {
   return (req, res, next) => {
@@ -35,5 +36,21 @@ const structureValidation = (arrayWithAcceptableParams: string[]) => {
   };
 };
 
-const commonValidation = { structureValidation };
+const chceckThatValueIsAllowedRosource = (
+  value: string,
+  resourceList: Function
+) => {
+  const allowedArray = resourceList();
+  if (!allowedArray.includes(value)) {
+    throw new Error(
+      "Be sure that value is one of the following: " + allowedArray
+    );
+  }
+  return true;
+};
+
+const commonValidation = {
+  structureValidation,
+  chceckThatValueIsAllowedRosource,
+};
 export default commonValidation;

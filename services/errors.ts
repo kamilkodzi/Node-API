@@ -1,18 +1,18 @@
 import db from "../config/databaseConfiguration";
-import { systemlogsDBModel as model } from "../config/databaseSchema";
+import dbSchema from "../config/databaseSchema";
 import { httpBodyAndQueriesConsts as httpQry } from "../config/consts";
 
-export const getErrors = async (offset: number, rowslimit: number) => {
+const getErrors = async (offset: number, rowslimit: number) => {
   const queryResults = await db
     .promise()
     .query(
-      `SELECT ${model.col_id},${model.col_logWasCreated},${model.col_logWasUploadedToApi},${model.col_sendFromSource},${model.col_sendFromSystem},${model.col_sendFromCustomer},${model.col_sendFromUser},${model.col_shortDescription},${model.col_longDescription},${model.col_errorCode},${model.col_errorDescription},${model.col_comment} FROM ${model.tab_tableName} WHERE ${model.col_isShowingAnError} = 1 ORDER BY ${model.col_logWasCreated} DESC LIMIT ?,?`,
+      `SELECT ${dbSchema.systemlogsTablel.col_id},${dbSchema.systemlogsTablel.col_logWasCreated},${dbSchema.systemlogsTablel.col_logWasUploadedToApi},${dbSchema.systemlogsTablel.col_sendFromSource},${dbSchema.systemlogsTablel.col_sendFromSystem},${dbSchema.systemlogsTablel.col_sendFromCustomer},${dbSchema.systemlogsTablel.col_sendFromUser},${dbSchema.systemlogsTablel.col_shortDescription},${dbSchema.systemlogsTablel.col_longDescription},${dbSchema.systemlogsTablel.col_errorCode},${dbSchema.systemlogsTablel.col_errorDescription},${dbSchema.systemlogsTablel.col_comment} FROM ${dbSchema.systemlogsTablel.tab_tableName} WHERE ${dbSchema.systemlogsTablel.col_isShowingAnError} = 1 ORDER BY ${dbSchema.systemlogsTablel.col_logWasCreated} DESC LIMIT ?,?`,
       [offset, rowslimit]
     );
   return queryResults[0];
 };
 
-export const addNewError = async (req) => {
+const addNewError = async (req) => {
   const logWasCreated = req.body[httpQry.body_logWasCreated];
   const logWasUploadedToApi = req.requestTime;
   const sendFromSource = req.body[httpQry.body_sendFromSource];
@@ -37,7 +37,7 @@ export const addNewError = async (req) => {
   const queryResults = await db
     .promise()
     .query(
-      `INSERT INTO ${model.tab_tableName} (${model.col_logWasCreated},${model.col_logWasUploadedToApi},${model.col_sendFromSource},${model.col_sendFromSystem},${model.col_sendFromCustomer},${model.col_sendFromUser},${model.col_shortDescription},${model.col_longDescription},${model.col_errorCode},${model.col_errorDescription},${model.col_isShowingAnError},${model.col_preventDuplicateId2}) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
+      `INSERT INTO ${dbSchema.systemlogsTablel.tab_tableName} (${dbSchema.systemlogsTablel.col_logWasCreated},${dbSchema.systemlogsTablel.col_logWasUploadedToApi},${dbSchema.systemlogsTablel.col_sendFromSource},${dbSchema.systemlogsTablel.col_sendFromSystem},${dbSchema.systemlogsTablel.col_sendFromCustomer},${dbSchema.systemlogsTablel.col_sendFromUser},${dbSchema.systemlogsTablel.col_shortDescription},${dbSchema.systemlogsTablel.col_longDescription},${dbSchema.systemlogsTablel.col_errorCode},${dbSchema.systemlogsTablel.col_errorDescription},${dbSchema.systemlogsTablel.col_isShowingAnError},${dbSchema.systemlogsTablel.col_preventDuplicateId2}) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`,
       [
         logWasCreated,
         logWasUploadedToApi,

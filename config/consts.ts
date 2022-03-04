@@ -1,9 +1,9 @@
 export const httpBodyAndQueriesConsts = {
   query_page: "page",
   query_rowslimit: "rowslimit",
-  query_source:"source",
-  query_customer:"customer",
-  query_system:"system",
+  query_source: "source",
+  query_customer: "customer",
+  query_system: "system",
   body_logWasCreated: "logWasCreated",
   body_logWasUploadedToApi: "logWasUploadedToApi",
   body_sendFromSource: "sendFromSource",
@@ -24,6 +24,9 @@ export const apiResponseText = {
   get_responseData: "data",
   get_responseCountOfRowsReturnedByQuery: "rows",
   post_responseId: "insertId",
+  get_allowedResourcesSystems: "systems",
+  get_allowedResourcesSources: "sources",
+  get_allowedResourcesCustomers: "customers",
 };
 
 export const allowedCustomers = [

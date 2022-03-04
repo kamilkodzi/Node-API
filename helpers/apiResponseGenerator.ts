@@ -33,5 +33,27 @@ const createPostResponse = (data) => {
   };
 };
 
-const apiResponseCreator = { createGetResponse, createPostResponse };
-export default apiResponseCreator;
+const createAfterRefreshAllowedResourcesResponse = (
+  systemsResults,
+  sourcesResults,
+  customersResults
+) => {
+  const resonseMetaText = apiRes.get_responseMeta;
+  const responseSystemsRefreshText = apiRes.get_allowedResourcesSystems;
+  const responseSourcesRefreshText = apiRes.get_allowedResourcesSources;
+  const responseCustomersRefreshText = apiRes.get_allowedResourcesCustomers;
+
+  return {
+    [resonseMetaText]: {
+      [responseSystemsRefreshText]: systemsResults,
+      [responseSourcesRefreshText]: sourcesResults,
+      [responseCustomersRefreshText]: customersResults,
+    },
+  };
+};
+
+export = {
+  createGetResponse,
+  createPostResponse,
+  createAfterRefreshAllowedResourcesResponse,
+};
