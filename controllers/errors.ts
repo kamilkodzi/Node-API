@@ -6,7 +6,6 @@ import consts from "../config/consts";
 // import allowerResourcesController from "../controllers/allowedResources";
 
 const getLatestCreatedErrors = async (req, res, next) => {
-  // console.log(allowedResources.getAllowedSystems());
   const page = req.query[consts.httpBodyAndQueries.query_page];
   const rowslimit = req.query[consts.httpBodyAndQueries.query_rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);

@@ -1,35 +1,10 @@
 import dbSchema from "../config/databaseSchema";
 import allowedResourcesService from "../services/allowedResources";
-import apiResponseCreator from "../helpers/apiResponseGenerator";
 import consts from "../config/consts";
-import ExpressError from "../helpers/ExpressError";
 
 var allowedCustomersSingleton = consts.allowedCustomers;
 var allowedSourcesSingleton = consts.allowedSources;
 var allowedSystemsSingleton = consts.allowedSystems;
-
-const getRefreshAll = async (req, res, next) => {
-  let apiAnswer;
-  try {
-    const customersRefreshStatus = await refreshCustomers();
-    const systemsRefreshStatus = await refreshSystems();
-    const sourcesRefreshStatus = await refreshSources();
-
-    apiAnswer = apiResponseCreator.createAfterRefreshAllowedResourcesResponse(
-      systemsRefreshStatus,
-      sourcesRefreshStatus,
-      customersRefreshStatus
-    );
-  } catch (error) {
-    next(
-      new ExpressError(
-        "There is problem with refreshing list of allowed resources. Immediately contact with your administrator for restarting server",
-        500
-      )
-    );
-  }
-  res.send(apiAnswer);
-};
 
 const refreshSystems = async () => {
   return refreshDeclaredResource(
@@ -121,5 +96,4 @@ export = {
   allowedSystems,
   allowedSources,
   allowedCustomers,
-  getRefreshAll,
 };
