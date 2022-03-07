@@ -2,8 +2,6 @@ import getOffset from "../helpers/offsetQueries";
 import errorsService from "../services/errors";
 import apiResponseCreator from "../helpers/apiResponseGenerator";
 import consts from "../config/consts";
-// import allowedResources from "../validationAndSanitization/allowedResources";
-// import allowerResourcesController from "../controllers/allowedResources";
 
 const getLatestCreatedErrors = async (req, res, next) => {
   const page = req.query[consts.httpBodyAndQueries.query_page];

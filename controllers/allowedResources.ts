@@ -4,9 +4,9 @@ import AllowedResources from "../helpers/AllowedResources";
 
 const refreshAllInBackgrourn = async (req, res, next) => {
   try {
-    const customersRefreshStatus = await AllowedResources.refreshCustomers();
-    const systemsRefreshStatus = await AllowedResources.refreshSystems();
-    const sourcesRefreshStatus = await AllowedResources.refreshSources();
+    await AllowedResources.refreshCustomers();
+    await AllowedResources.refreshSystems();
+    await AllowedResources.refreshSources();
   } catch (error) {
     console.log(
       "There is problem with fetching data from Customer, System and Source tables on server start"
