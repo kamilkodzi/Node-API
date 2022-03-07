@@ -2,6 +2,19 @@ import apiResponseCreator from "../helpers/apiResponseGenerator";
 import ExpressError from "../helpers/ExpressError";
 import AllowedResources from "../helpers/AllowedResources";
 
+const refreshAllInBackgrourn = async (req, res, next) => {
+  try {
+    const customersRefreshStatus = await AllowedResources.refreshCustomers();
+    const systemsRefreshStatus = await AllowedResources.refreshSystems();
+    const sourcesRefreshStatus = await AllowedResources.refreshSources();
+  } catch (error) {
+    console.log(
+      "There is problem with fetching data from Customer, System and Source tables on server start"
+    );
+  }
+  next();
+};
+
 const getRefreshAll = async (req, res, next) => {
   let apiAnswer;
   try {
@@ -27,4 +40,5 @@ const getRefreshAll = async (req, res, next) => {
 
 export = {
   getRefreshAll,
+  refreshAllInBackgrourn,
 };

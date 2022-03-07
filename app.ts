@@ -15,6 +15,7 @@ const port = 4050;
 app.use(express.json());
 app.use(helmet());
 app.use(requestTime);
+app.use(allowedController.refreshAllInBackgrourn);
 
 app.get("/refreshSystems", allowedController.getRefreshAll);
 // Test route
