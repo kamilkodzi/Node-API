@@ -17,6 +17,13 @@ const httpBodyAndQueries = {
   body_errorDescription: "errorDescription",
   body_comment: "comment",
 };
+const httpParams = {
+  resourceName: "resourceName",
+  resourceValue_systems: "systems",
+  resourceValue_customers: "customers",
+  resourceValue_sources: "sources",
+  id: "id",
+};
 
 const apiResponseText = {
   get_responsePage: "page",
@@ -28,6 +35,8 @@ const apiResponseText = {
   get_allowedResourcesSystems: "systems",
   get_allowedResourcesSources: "sources",
   get_allowedResourcesCustomers: "customers",
+  get_allowedResourcesStatusSynchronized: "synchronised",
+  get_allowedResourcesStatus_NOT_Synchronized: "not synchronised",
 };
 
 const allowedCustomers = [
@@ -45,4 +54,5 @@ export = {
   allowedCustomers,
   allowedSources,
   allowedSystems,
+  httpParams,
 };

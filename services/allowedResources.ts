@@ -28,7 +28,26 @@ const getCustomers = async () => {
   return queryResults[0];
 };
 
+const getAllowedResourceByNameAndId = async (
+  allowedResourcesTableName,
+  id = undefined
+) => {
+  let queryResults;
+  if (id) {
+    queryResults = await db
+      .promise()
+      .query(`SELECT * FROM ${allowedResourcesTableName}`);
+  } else {
+    queryResults = await db
+      .promise()
+      .query(`SELECT * FROM ${allowedResourcesTableName}`);
+  }
+
+  return queryResults[0];
+};
+
 export = {
+  getAllowedResourceByNameAndId,
   getSystems,
   getSources,
   getCustomers,

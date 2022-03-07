@@ -58,19 +58,21 @@ const refreshDeclaredResource = async (
             break;
         }
         refreshResults = {
-          status: "refreshed",
+          status: consts.apiResponseText.get_allowedResourcesStatusSynchronized,
           onServer: onServer,
         };
       } else {
         refreshResults = {
-          status: "not-refreshed",
+          status:
+            consts.apiResponseText.get_allowedResourcesStatus_NOT_Synchronized,
           onServer: singletonToUpdate,
         };
       }
     });
   } catch (error) {
     refreshResults = {
-      status: "not-refreshed",
+      status:
+        consts.apiResponseText.get_allowedResourcesStatus_NOT_Synchronized,
       onServer: singletonToUpdate,
     };
   }
