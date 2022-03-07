@@ -17,6 +17,7 @@ app.use(helmet());
 app.use(requestTime);
 
 app.get("/refreshSystems", allowedController.getRefreshAll);
+// Test route
 
 app.use(basicAuth, logsRoutes);
 app.use(basicAuth, errorsRoutes);

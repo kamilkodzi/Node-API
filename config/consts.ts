@@ -29,9 +29,14 @@ const apiResponseText = {
   get_allowedResourcesCustomers: "customers",
 };
 
-const allowedCustomers = ["SUNSETINDUSTRIES", "HALBA", "ACME", "TEST-CUSTOMER"];
-const allowedSources = ["KAMILPC", "DANIELPC", "VERR.DBF"];
-const allowedSystems = ["RUOM", "POSTMAN", "BIOTOP", "EO"];
+const allowedCustomers = [
+  "SUNSETINDUSTRIES",
+  "HALBA",
+  "FALLOUT",
+  "TEST-CUSTOMER",
+];
+const allowedSources = ["KAMILPC", "SOMETABLE.ACC", "CUSTOMER.DB"];
+const allowedSystems = ["EXCEL-XYZ", "POSTMAN", "FACEBOOK", ""];
 
 export = {
   httpBodyAndQueries,
