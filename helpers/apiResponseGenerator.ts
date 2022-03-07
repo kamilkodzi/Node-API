@@ -37,6 +37,8 @@ const createAfterRefreshAllowedResourcesResponse = (
   customersResults
 ) => {
   const resonseMetaText = consts.apiResponseText.get_responseMeta;
+  const responseDataText = consts.apiResponseText.get_responseData;
+  const handfulInformation = consts.apiResponseText.get_handfulInformation;
   const responseSystemsRefreshText =
     consts.apiResponseText.get_allowedResourcesSystems;
   const responseSourcesRefreshText =
@@ -45,7 +47,7 @@ const createAfterRefreshAllowedResourcesResponse = (
     consts.apiResponseText.get_allowedResourcesCustomers;
 
   return {
-    [resonseMetaText]: {
+    [responseDataText]: {
       [responseSystemsRefreshText]: systemsResults,
       [responseSourcesRefreshText]: sourcesResults,
       [responseCustomersRefreshText]: customersResults,

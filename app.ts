@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import logsRoutes from "./routes/logs";
 import errorsRoutes from "./routes/errors";
+import allowedResources from "./routes/allowedResources";
 import ExpressError from "./helpers/ExpressError";
 import errorMessageCreator from "./middlewares/errorMessageCreator";
 import requestTime from "./middlewares/requestTime";
@@ -16,10 +17,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
-
-app.get("/refreshSystems", allowedController.getRefreshAll);
-// Test route
-
+app.use(basicAuth, allowedResources);
 app.use(basicAuth, logsRoutes);
 app.use(basicAuth, errorsRoutes);
 app.use(basicAuth, lastUpdateRoutes);

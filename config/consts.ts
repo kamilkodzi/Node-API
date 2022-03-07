@@ -22,6 +22,7 @@ const apiResponseText = {
   get_responsePage: "page",
   get_responseMeta: "meta",
   get_responseData: "data",
+  get_handfulInformation: "info",
   get_responseCountOfRowsReturnedByQuery: "rows",
   post_responseId: "insertId",
   get_allowedResourcesSystems: "systems",
