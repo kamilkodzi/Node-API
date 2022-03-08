@@ -20,7 +20,7 @@ const basicAuth = async (req, res, next) => {
       req.user = user;
       next();
     } catch (error) {
-      next(new ExpressError("Invalid Authentication Credentials", 401));
+      next(error);
     }
   }
 };

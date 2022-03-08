@@ -2,9 +2,9 @@ import consts from "../config/consts";
 
 const createGetResponse = (
   dataFromDatabase,
-  rowslimitSendByClient,
-  pageSendByClient,
-  queryResultsLenght
+  rowslimitSendByClient = undefined,
+  pageSendByClient = undefined,
+  queryResultsLenght = undefined
 ) => {
   const responseDataText = consts.apiResponseText.get_responseData;
   const resonseMetaText = consts.apiResponseText.get_responseMeta;

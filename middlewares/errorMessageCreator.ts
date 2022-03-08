@@ -33,7 +33,7 @@ const errorMessageCreator = (err, req, res, next) => {
     case code == "ER_ACCESS_DENIED_ERROR":
       next(
         new ExpressError(
-          "There are problems while interacting with database - credentials are not valid and service can`t connect with database - constact with your administrator",
+          "There are problems while interacting with database - credentials are not valid and service can`t connect with database - contact with your administrator",
           500
         )
       );
@@ -42,8 +42,17 @@ const errorMessageCreator = (err, req, res, next) => {
     case type == "entity.parse.failed":
       next(
         new ExpressError(
-          "Server understand only messages send in JSON format, double-check your input",
+          "Server understand only messages send in JSON format, double - check your input",
           400
+        )
+      );
+      break;
+
+    case code == "ENOTFOUND":
+      next(
+        new ExpressError(
+          "Server have problem with with establishing connection to database - contact with your administrator",
+          500
         )
       );
       break;

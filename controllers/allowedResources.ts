@@ -1,6 +1,40 @@
 import apiResponseCreator from "../helpers/apiResponseGenerator";
 import ExpressError from "../helpers/ExpressError";
 import AllowedResources from "../helpers/AllowedResources";
+import allowedResourcesService from "..//services/allowedResources";
+import consts from "../config/consts";
+import databaseSchema from "../config/databaseSchema";
+
+const getResourceByNameAndId = async (req, res, next) => {
+  const resourceName = req.params.resourceName;
+  const id = req.params.id;
+  let queryResults;
+  switch (resourceName) {
+    case consts.httpParams.resourceValue_systems:
+      queryResults =
+        await allowedResourcesService.getAllowedResourceByNameAndId(
+          databaseSchema.systemsTable.tab_tableName,
+          id
+        );
+      break;
+    case consts.httpParams.resourceValue_sources:
+      queryResults =
+        await allowedResourcesService.getAllowedResourceByNameAndId(
+          databaseSchema.sourcesTable.tab_tableName,
+          id
+        );
+      break;
+    case consts.httpParams.resourceValue_customers:
+      queryResults =
+        await allowedResourcesService.getAllowedResourceByNameAndId(
+          databaseSchema.customersTable.tab_tableName,
+          id
+        );
+      break;
+  }
+  const apiAnswer = apiResponseCreator.createGetResponse(queryResults);
+  res.status(200).send(apiAnswer);
+};
 
 const refreshAllInBackgrourn = async (req, res, next) => {
   try {
@@ -15,7 +49,7 @@ const refreshAllInBackgrourn = async (req, res, next) => {
   next();
 };
 
-const getRefreshAll = async (req, res, next) => {
+const getSynchronizationInformation = async (req, res, next) => {
   let apiAnswer;
   try {
     const customersRefreshStatus = await AllowedResources.refreshCustomers();
@@ -39,6 +73,7 @@ const getRefreshAll = async (req, res, next) => {
 };
 
 export = {
-  getRefreshAll,
+  getResourceByNameAndId,
+  getSynchronizationInformation,
   refreshAllInBackgrourn,
 };

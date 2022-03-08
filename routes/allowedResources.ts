@@ -1,47 +1,27 @@
 import { Router } from "express";
 import allowedResourcesController from "../controllers/allowedResources";
 import errorHandler from "../helpers/errorsHandlers";
-import allowedResourcesService from "../services/allowedResources";
 import allowedResourcesValidation from "../validationAndSanitization/allowedResources";
+import commonValidation from "../validationAndSanitization/common";
+
 const router = Router();
 
-router.route("/allowedResources").get(allowedResourcesController.getRefreshAll);
-
-//Remember to add refresh Singleton before showing what is in DB.
-router
-  .route("/allowedResources/:resourceName")
-  .get(
-    allowedResourcesValidation.contentValidationforGetMethod(),
-    errorHandler.validationErrCatch,
-    async (req, res) => {
-      const xxx = await allowedResourcesService.getAllowedResourceByNameAndId(
-        "customerstable"
-      );
-      res.send(
-        "You choose to get all of the resources that stands behind: " +
-          req.params.resourceName +
-          "response form DB: " +
-          JSON.stringify(xxx)
-      );
-    }
-  );
+router.route("/allowedResources").get(
+  commonValidation.structureValidation([]),
+  // errorHandler.asyncErrCatch(
+  allowedResourcesController.getSynchronizationInformation
+  // )
+);
 
 router
-  .route("/allowedResources/:resourceName/:id")
+  .route("/allowedResources/:resourceName/:id?")
   .get(
+    commonValidation.structureValidation([]),
     allowedResourcesValidation.contentValidationforGetMethod(),
     errorHandler.validationErrCatch,
-    async (req, res) => {
-      const xxx = await allowedResourcesService.getAllowedResourceByNameAndId(
-        "customerstable"
-      );
-      res.send(
-        "You choose to get all of the resources that stands behind: " +
-          req.params.resourceName +
-          "response form DB: " +
-          JSON.stringify(xxx)
-      );
-    }
+    errorHandler.asyncErrCatch(
+      allowedResourcesController.getResourceByNameAndId
+    )
   );
 
 router.route("/allowedResources/:resourceName/new").post((req, res) => {
