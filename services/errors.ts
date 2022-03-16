@@ -38,7 +38,13 @@ const addNewError = async (req) => {
     "." +
     sendFromSource +
     "." +
-    sendFromCustomer;
+    sendFromCustomer +
+    "." +
+    sendFromUser +
+    "." +
+    isShowingAnError +
+    "." +
+    errorCode;
 
   const queryResults = await db
     .promise()

@@ -3,6 +3,7 @@ import apiConfig from "../config/apiConfig";
 import consts from "../config/consts";
 import commonValidators from "../validationAndSanitization/common";
 import AllowedResources from "../helpers/AllowedResources";
+import databaseSchema from "../config/databaseSchema";
 
 const structureSchemaForGetMethod = [
   consts.httpBodyAndQueries.query_page,
@@ -39,6 +40,13 @@ const contentValidationforGetMethod = (): ValidationChain[] => {
 };
 
 const contentValidationforPostMethod = () => {
+  const errorCodeMaxLength =
+    databaseSchema.systemlogsTablel.col_errorCode_max_length;
+  const userMaxLength =
+    databaseSchema.systemlogsTablel.col_sendFromUser_max_length;
+  const errorDescriptionMaxLength =
+    databaseSchema.systemlogsTablel.col_errorDescription_max_length;
+
   return [
     body(consts.httpBodyAndQueries.body_logWasCreated)
       .notEmpty()
@@ -86,27 +94,39 @@ const contentValidationforPostMethod = () => {
         )
       ),
     body(consts.httpBodyAndQueries.body_errorCode)
+      .isLength({
+        max: errorCodeMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${errorCodeMaxLength} characters`
+      )
+      .bail()
       .notEmpty()
       .toUpperCase()
       .trim()
       .withMessage("Value is required"),
     body(consts.httpBodyAndQueries.body_errorDescription)
+      .isLength({
+        max: errorDescriptionMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${errorDescriptionMaxLength} characters`
+      )
       .notEmpty()
       .trim()
       .withMessage("Value is required")
       .trim(),
     body(consts.httpBodyAndQueries.body_sendFromUser)
+      .isLength({
+        max: userMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${userMaxLength} characters`
+      )
+      .bail()
       .notEmpty()
       .trim()
       .withMessage("Value is required"),
-    body(
-      consts.httpBodyAndQueries.body_shortDescription,
-      "Long or short description is required"
-    ).trim(),
-    body(
-      consts.httpBodyAndQueries.body_longDescription,
-      "Long or short description is required"
-    ).trim(),
   ];
 };
 

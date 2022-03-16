@@ -3,6 +3,7 @@ import apiConfig from "../config/apiConfig";
 import consts from "../config/consts";
 import commonValidators from "../validationAndSanitization/common";
 import AllowedResources from "../helpers/AllowedResources";
+import databaseSchema from "../config/databaseSchema";
 
 const structureSchemaForGetMethod = [
   consts.httpBodyAndQueries.query_page,
@@ -39,6 +40,12 @@ const contentValidationforGetMethod = (): ValidationChain[] => {
 };
 
 const contentValidationforPostMethod = () => {
+  const userMaxLength =
+    databaseSchema.systemlogsTablel.col_sendFromUser_max_length;
+  const shortDescriptionMaxLength =
+    databaseSchema.systemlogsTablel.col_shortDescription_max_length;
+  const longDescriptionMaxLength =
+    databaseSchema.systemlogsTablel.col_longDescription_max_length;
   return [
     body(consts.httpBodyAndQueries.body_logWasCreated)
       .notEmpty()
@@ -86,8 +93,29 @@ const contentValidationforPostMethod = () => {
         )
       ),
     body(consts.httpBodyAndQueries.body_sendFromUser)
+      .isLength({
+        max: userMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${userMaxLength} characters`
+      )
+      .bail()
       .notEmpty()
       .withMessage("Value is required"),
+    body(consts.httpBodyAndQueries.body_shortDescription)
+      .isLength({
+        max: shortDescriptionMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${shortDescriptionMaxLength} characters`
+      ),
+    body(consts.httpBodyAndQueries.body_longDescription)
+      .isLength({
+        max: longDescriptionMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${longDescriptionMaxLength} characters`
+      ),
     oneOf([
       body(
         consts.httpBodyAndQueries.body_shortDescription,

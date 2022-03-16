@@ -35,7 +35,13 @@ const addNewLog = async (req) => {
     "." +
     sendFromSource +
     "." +
-    sendFromCustomer;
+    sendFromCustomer +
+    "." +
+    sendFromUser +
+    "." +
+    isShowingAnError +
+    "." +
+    shortDescription;
 
   const queryResults = await db
     .promise()
