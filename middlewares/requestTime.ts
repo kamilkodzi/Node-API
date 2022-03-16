@@ -5,4 +5,11 @@ const requestTime = (req, res, next) => {
   next();
 };
 
-export default requestTime;
+const convertTimeToLocalServerTimeZone = (date: Date): string => {
+  return moment(date).format("YYYY-MM-DD HH:mm:ss").toString();
+};
+
+export = {
+  requestTime,
+  convertTimeToLocalServerTimeZone,
+};

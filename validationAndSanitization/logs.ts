@@ -45,8 +45,10 @@ const contentValidationforPostMethod = () => {
       .withMessage("Value is required")
       .isISO8601()
       .withMessage(
-        "Value should be in Date in ISO8601 format (YYYY-MM-DD hh:mm:ss)"
-      ),
+        "Value should be correct Date in ISO8601 format (YYYY-MM-DD hh:mm:ss)"
+      )
+      .bail()
+      .custom((value) => commonValidators.dateFormatCheckWithRegExp(value)),
     body(consts.httpBodyAndQueries.body_sendFromSource)
       .notEmpty()
       .toUpperCase()

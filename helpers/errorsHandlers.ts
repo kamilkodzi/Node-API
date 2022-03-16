@@ -9,7 +9,6 @@ const asyncErrCatch = (fn) => {
 
 const validationErrCatch = (req, res, next) => {
   const errors = validationResult(req);
-
   let concatenatedErrorMessageFromValidation = "";
   if (errors.isEmpty()) {
     return next();

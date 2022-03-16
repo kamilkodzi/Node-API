@@ -1,6 +1,8 @@
 import lastUpdateService from "../services/lastUpdate";
 import consts from "../config/consts";
 import apiResponseCreator from "../helpers/apiResponseGenerator";
+import requestTime from "../middlewares/requestTime";
+import databaseSchema from "../config/databaseSchema";
 
 const getLastUpdateDate = async (req, res, next) => {
   const customer = req.query[consts.httpBodyAndQueries.query_customer];
@@ -8,10 +10,26 @@ const getLastUpdateDate = async (req, res, next) => {
   const system = req.query[consts.httpBodyAndQueries.query_system];
   const fixedRowslimit = 1;
   const fixedPageNumber = 1;
-  const queryResults: [] = await lastUpdateService
+  const logWasCreated = databaseSchema.systemlogsTablel.col_logWasCreated;
+  const queryResults = await lastUpdateService
     .getLastUpdate(customer, source, system)
     .then((data: []) => {
-      return data;
+      if (data.length) {
+        const newArr = data.map((obj: any) => {
+          if (obj[logWasCreated]) {
+            const lastUpdateDate = new Date(obj[logWasCreated]);
+            return {
+              ...obj,
+              logWasCreated:
+                requestTime.convertTimeToLocalServerTimeZone(lastUpdateDate),
+            };
+          }
+          return obj;
+        });
+        return newArr;
+      } else {
+        return data;
+      }
     });
   const queryResultsLenght = queryResults.length;
   const apiAnswer = apiResponseCreator.createGetResponse(

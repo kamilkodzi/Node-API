@@ -48,7 +48,19 @@ const chceckThatValueIsAllowedRosource = (
   return true;
 };
 
+const dateFormatCheckWithRegExp = (dateToBeChecked: string) => {
+  const regExFilter = dateToBeChecked.match(
+    /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/g
+  );
+  if (regExFilter === null) {
+    throw new Error("Value must match format: YYYY-MM-DD hh:mm:ss");
+  } else {
+    return true;
+  }
+};
+
 export = {
+  dateFormatCheckWithRegExp,
   structureValidation,
   chceckThatValueIsAllowedRosource,
 };
