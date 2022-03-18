@@ -4,8 +4,8 @@ import apiResponseCreator from "../helpers/apiResponseGenerator";
 import consts from "../config/consts";
 
 const getLatestCreatedErrors = async (req, res, next) => {
-  const page = req.query[consts.httpBodyAndQueries.query_page];
-  const rowslimit = req.query[consts.httpBodyAndQueries.query_rowslimit];
+  const page = req.query[consts.httpBodyAndQueries.page];
+  const rowslimit = req.query[consts.httpBodyAndQueries.rowslimit];
   const pageTurnedInToOffset = getOffset(page, rowslimit);
   const queryResults = await errorsService
     .getErrors(pageTurnedInToOffset, rowslimit)

@@ -7,28 +7,39 @@ import commonValidation from "../validationAndSanitization/common";
 const router = Router();
 
 router.route("/allowedResources").get(
-  commonValidation.structureValidation([]),
-  // errorHandler.asyncErrCatch(
+  commonValidation.structureValidation([], {
+    searchInQueryParams: true,
+    searchInBody: true,
+  }),
   allowedResourcesController.getSynchronizationInformation
-  // )
+);
+
+router.route("/allowedResources/:resourceName/:id?").get(
+  commonValidation.structureValidation([], {
+    searchInQueryParams: true,
+    searchInBody: true,
+  }),
+  allowedResourcesValidation.contentValidationforGetMethod(),
+  errorHandler.validationErrCatch,
+  errorHandler.asyncErrCatch(allowedResourcesController.getResourceByNameAndId)
 );
 
 router
-  .route("/allowedResources/:resourceName/:id?")
-  .get(
-    commonValidation.structureValidation([]),
-    allowedResourcesValidation.contentValidationforGetMethod(),
+  .route("/allowedResources/:resourceName/new")
+  .post(
+    commonValidation.structureValidation(
+      allowedResourcesValidation.structureSchemaForPostMethod,
+      { searchInBody: true }
+    ),
+    commonValidation.structureValidation(
+      allowedResourcesValidation.structureSchemaForAllowedParamInRoute,
+      { searchInRouteParams: true }
+    ),
+    allowedResourcesValidation.contentValidationforPostMethod(),
     errorHandler.validationErrCatch,
-    errorHandler.asyncErrCatch(
-      allowedResourcesController.getResourceByNameAndId
-    )
+    errorHandler.asyncErrCatch(allowedResourcesController.postResources)
   );
 
-router.route("/allowedResources/:resourceName/new").post((req, res) => {
-  res.send(
-    "You choose to post/create a new instnce of: " + req.params.resourceName
-  );
-});
 
 router.route("/allowedResources/:resourceName/:id").put((req, res) => {
   res.send(
@@ -38,6 +49,7 @@ router.route("/allowedResources/:resourceName/:id").put((req, res) => {
       req.params.id
   );
 });
+
 
 router.route("/allowedResources/:resourceName/:id").delete((req, res) => {
   res.send(

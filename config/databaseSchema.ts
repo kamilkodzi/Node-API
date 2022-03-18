@@ -34,16 +34,25 @@ const loggerusersTable = {
 const systemsTable = {
   tab_tableName: "systemstable",
   col_systemName: "systemName",
+  col_systemName_max_lengths: 15,
+  col_comments: "comments",
+  col_comments_max_length: 255,
 };
 
 const sourcesTable = {
   tab_tableName: "sourcestable",
   col_systemName: "sourceName",
+  col_systemName_max_length: 15,
+  col_comments: "comments",
+  col_comments_max_length: 255,
 };
 
 const customersTable = {
   tab_tableName: "customerstable",
   col_systemName: "customerName",
+  col_systemName_max_length: 15,
+  col_comments: "comments",
+  col_comments_max_length: 255,
 };
 
 export = {

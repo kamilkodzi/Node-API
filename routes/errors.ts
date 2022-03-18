@@ -11,7 +11,8 @@ router
   .route("/error")
   .post(
     commonValidation.structureValidation(
-      errorsValidation.structureSchemaForPostMethod
+      errorsValidation.structureSchemaForPostMethod,
+      { searchInBody: true }
     ),
     errorsValidation.contentValidationforPostMethod(),
     errorHandler.validationErrCatch,
@@ -23,7 +24,8 @@ router
   .route("/errors")
   .get(
     commonValidation.structureValidation(
-      errorsValidation.structureSchemaForGetMethod
+      errorsValidation.structureSchemaForGetMethod,
+      { searchInQueryParams: true }
     ),
     errorsValidation.contentValidationforGetMethod(),
     errorHandler.validationErrCatch,

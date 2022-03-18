@@ -5,33 +5,26 @@ import allowedResourcesService from "..//services/allowedResources";
 import consts from "../config/consts";
 import databaseSchema from "../config/databaseSchema";
 
+const postResources = async (req, res, next) => {
+  const resourceToAdd = req.params[consts.httpParams.resourceName];
+  const newName = req.body[consts.httpBodyAndQueries.allowedResourceName];
+  const commentToAdd = req.body[consts.httpBodyAndQueries.comments];
+  const tableName = determineTableBasingOnUrlParam(resourceToAdd);
+  const queryResults = await allowedResourcesService.addNewAllowedResource(
+    tableName,
+    newName,
+    commentToAdd
+  );
+  const apiAnswer = apiResponseCreator.createPostResponse(queryResults);
+  res.status(201).send(apiAnswer);
+};
+
 const getResourceByNameAndId = async (req, res, next) => {
-  const resourceName = req.params.resourceName;
+  const resourceName = req.params[consts.httpParams.resourceName];
   const id = req.params.id;
-  let queryResults;
-  switch (resourceName) {
-    case consts.httpParams.resourceValue_systems:
-      queryResults =
-        await allowedResourcesService.getAllowedResourceByNameAndId(
-          databaseSchema.systemsTable.tab_tableName,
-          id
-        );
-      break;
-    case consts.httpParams.resourceValue_sources:
-      queryResults =
-        await allowedResourcesService.getAllowedResourceByNameAndId(
-          databaseSchema.sourcesTable.tab_tableName,
-          id
-        );
-      break;
-    case consts.httpParams.resourceValue_customers:
-      queryResults =
-        await allowedResourcesService.getAllowedResourceByNameAndId(
-          databaseSchema.customersTable.tab_tableName,
-          id
-        );
-      break;
-  }
+  const tableName = determineTableBasingOnUrlParam(resourceName);
+  const queryResults =
+    await allowedResourcesService.getAllowedResourceByNameAndId(tableName, id);
   const apiAnswer = apiResponseCreator.createGetResponse(queryResults);
   res.status(200).send(apiAnswer);
 };
@@ -72,7 +65,24 @@ const getSynchronizationInformation = async (req, res, next) => {
   res.send(apiAnswer);
 };
 
+const determineTableBasingOnUrlParam = (urlParam: string) => {
+  let tableName = undefined;
+  switch (urlParam) {
+    case consts.httpParams.resourceValue_systems:
+      tableName = databaseSchema.systemsTable.tab_tableName;
+      break;
+    case consts.httpParams.resourceValue_sources:
+      tableName = databaseSchema.sourcesTable.tab_tableName;
+      break;
+    case consts.httpParams.resourceValue_customers:
+      tableName = databaseSchema.customersTable.tab_tableName;
+      break;
+  }
+  return tableName;
+};
+
 export = {
+  postResources,
   getResourceByNameAndId,
   getSynchronizationInformation,
   refreshAllInBackgrourn,

@@ -10,14 +10,16 @@ import helmet from "helmet";
 import basicAuth from "./middlewares/basicAuth";
 import lastUpdateRoutes from "./routes/lastUpdate";
 import allowedController from "./controllers/allowedResources";
+import makeUrlToLowerCase from "./mutators/toLowerCaseURL";
 
 const app = express();
 const port = 4050;
-
 app.use(express.json());
 app.use(helmet());
+app.use(makeUrlToLowerCase);
 app.use(requestTime.requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
+
 app.use(basicAuth, allowedResources);
 app.use(basicAuth, logsRoutes);
 app.use(basicAuth, errorsRoutes);

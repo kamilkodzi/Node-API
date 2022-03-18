@@ -6,30 +6,30 @@ import AllowedResources from "../helpers/AllowedResources";
 import databaseSchema from "../config/databaseSchema";
 
 const structureSchemaForGetMethod = [
-  consts.httpBodyAndQueries.query_page,
-  consts.httpBodyAndQueries.query_rowslimit,
+  consts.httpBodyAndQueries.rowslimit,
+  consts.httpBodyAndQueries.page,
 ];
 
 const structureSchemaForPostMethod = [
-  consts.httpBodyAndQueries.body_logWasCreated,
-  consts.httpBodyAndQueries.body_sendFromSource,
-  consts.httpBodyAndQueries.body_sendFromSystem,
-  consts.httpBodyAndQueries.body_sendFromCustomer,
-  consts.httpBodyAndQueries.body_sendFromUser,
-  consts.httpBodyAndQueries.body_longDescription,
-  consts.httpBodyAndQueries.body_shortDescription,
+  consts.httpBodyAndQueries.logWasCreated,
+  consts.httpBodyAndQueries.sendFromSource,
+  consts.httpBodyAndQueries.sendFromSystem,
+  consts.httpBodyAndQueries.sendFromCustomer,
+  consts.httpBodyAndQueries.sendFromUser,
+  consts.httpBodyAndQueries.longDescription,
+  consts.httpBodyAndQueries.shortDescription,
 ];
 
 const contentValidationforGetMethod = (): ValidationChain[] => {
   return [
-    query(consts.httpBodyAndQueries.query_page)
+    query(consts.httpBodyAndQueries.page)
       .optional()
       .isInt({
         gt: 0,
       })
       .withMessage("Value should be a number that is greather than 0")
       .toInt(),
-    query(consts.httpBodyAndQueries.query_rowslimit)
+    query(consts.httpBodyAndQueries.rowslimit)
       .optional()
       .isInt({ min: 1, max: apiConfig.maximumRowsPerGetRequest })
       .withMessage(
@@ -47,7 +47,7 @@ const contentValidationforPostMethod = () => {
   const longDescriptionMaxLength =
     databaseSchema.systemlogsTablel.col_longDescription_max_length;
   return [
-    body(consts.httpBodyAndQueries.body_logWasCreated)
+    body(consts.httpBodyAndQueries.logWasCreated)
       .notEmpty()
       .withMessage("Value is required")
       .isISO8601()
@@ -56,7 +56,7 @@ const contentValidationforPostMethod = () => {
       )
       .bail()
       .custom((value) => commonValidators.dateFormatCheckWithRegExp(value)),
-    body(consts.httpBodyAndQueries.body_sendFromSource)
+    body(consts.httpBodyAndQueries.sendFromSource)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -68,7 +68,7 @@ const contentValidationforPostMethod = () => {
           AllowedResources.allowedSources
         )
       ),
-    body(consts.httpBodyAndQueries.body_sendFromSystem)
+    body(consts.httpBodyAndQueries.sendFromSystem)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -80,7 +80,7 @@ const contentValidationforPostMethod = () => {
           AllowedResources.allowedSystems
         )
       ),
-    body(consts.httpBodyAndQueries.body_sendFromCustomer)
+    body(consts.httpBodyAndQueries.sendFromCustomer)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -92,7 +92,7 @@ const contentValidationforPostMethod = () => {
           AllowedResources.allowedCustomers
         )
       ),
-    body(consts.httpBodyAndQueries.body_sendFromUser)
+    body(consts.httpBodyAndQueries.sendFromUser)
       .isLength({
         max: userMaxLength,
       })
@@ -102,14 +102,14 @@ const contentValidationforPostMethod = () => {
       .bail()
       .notEmpty()
       .withMessage("Value is required"),
-    body(consts.httpBodyAndQueries.body_shortDescription)
+    body(consts.httpBodyAndQueries.shortDescription)
       .isLength({
         max: shortDescriptionMaxLength,
       })
       .withMessage(
         `Enter value that with maximum of ${shortDescriptionMaxLength} characters`
       ),
-    body(consts.httpBodyAndQueries.body_longDescription)
+    body(consts.httpBodyAndQueries.longDescription)
       .isLength({
         max: longDescriptionMaxLength,
       })
@@ -118,13 +118,13 @@ const contentValidationforPostMethod = () => {
       ),
     oneOf([
       body(
-        consts.httpBodyAndQueries.body_shortDescription,
+        consts.httpBodyAndQueries.shortDescription,
         "Long or short description is required"
       )
         .notEmpty()
         .trim(),
       body(
-        consts.httpBodyAndQueries.body_longDescription,
+        consts.httpBodyAndQueries.longDescription,
         "Long or short description is required"
       )
         .notEmpty()

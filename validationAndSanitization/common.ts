@@ -1,35 +1,60 @@
 import ExpressError from "../helpers/ExpressError";
 
-const structureValidation = (arrayWithAcceptableParams: string[]) => {
+const structureValidation = (
+  arrayWithAcceptableParams: string[],
+  options?: {
+    searchInBody?: boolean;
+    searchInQueryParams?: boolean;
+    searchInRouteParams?: boolean;
+  }
+) => {
   return (req, res, next) => {
     if (req.query == {} && req.body == {}) {
       next();
     }
     const queriesInQuery = Object.keys(req.query);
     const queriesInBody = Object.keys(req.body);
+    const queriesInParams: string[] = Object.values(req.params);
 
-    queriesInQuery.map((paramName) => {
-      if (arrayWithAcceptableParams.indexOf(paramName) > -1) {
-      } else {
-        next(
-          new ExpressError(
-            `Parameter you provided: ${paramName} is not valid parameter for this API call.`,
-            400
-          )
-        );
-      }
-    });
-    queriesInBody.map((paramName) => {
-      if (arrayWithAcceptableParams.indexOf(paramName) > -1) {
-      } else {
-        next(
-          new ExpressError(
-            `Parameter you provided: ${paramName} is not valid parameter for this API call.`,
-            400
-          )
-        );
-      }
-    });
+    if (options?.searchInQueryParams) {
+      queriesInQuery.map((paramName) => {
+        if (arrayWithAcceptableParams.indexOf(paramName) > -1) {
+        } else {
+          next(
+            new ExpressError(
+              `Parameter you provided: ${paramName} is not valid parameter for this API call.`,
+              400
+            )
+          );
+        }
+      });
+    }
+    if (options?.searchInBody) {
+      queriesInBody.map((paramName) => {
+        if (arrayWithAcceptableParams.indexOf(paramName) > -1) {
+        } else {
+          next(
+            new ExpressError(
+              `Parameter you provided: ${paramName} is not valid parameter for this API call.`,
+              400
+            )
+          );
+        }
+      });
+    }
+    if (options?.searchInRouteParams) {
+      queriesInParams.map((paramName) => {
+        if (arrayWithAcceptableParams.indexOf(paramName) > -1) {
+        } else {
+          next(
+            new ExpressError(
+              `Parameter you provided: ${paramName} is not valid parameter for this API call.`,
+              400
+            )
+          );
+        }
+      });
+    }
 
     next();
   };

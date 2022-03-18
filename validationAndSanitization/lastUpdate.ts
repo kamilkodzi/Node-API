@@ -4,14 +4,14 @@ import commonValidators from "../validationAndSanitization/common";
 import AllowedResources from "../helpers/AllowedResources";
 
 const structureSchemaForGetLastUpdate = [
-  consts.httpBodyAndQueries.query_source,
-  consts.httpBodyAndQueries.query_customer,
-  consts.httpBodyAndQueries.query_system,
+  consts.httpBodyAndQueries.source,
+  consts.httpBodyAndQueries.customer,
+  consts.httpBodyAndQueries.system,
 ];
 
 const contentValidationforGetMethod = () => {
   return [
-    query(consts.httpBodyAndQueries.query_source)
+    query(consts.httpBodyAndQueries.source)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -23,7 +23,7 @@ const contentValidationforGetMethod = () => {
           AllowedResources.allowedSources
         )
       ),
-    query(consts.httpBodyAndQueries.query_customer)
+    query(consts.httpBodyAndQueries.customer)
       .notEmpty()
       .toUpperCase()
       .trim()
@@ -35,7 +35,7 @@ const contentValidationforGetMethod = () => {
           AllowedResources.allowedCustomers
         )
       ),
-    query(consts.httpBodyAndQueries.query_system)
+    query(consts.httpBodyAndQueries.system)
       .notEmpty()
       .toUpperCase()
       .trim()

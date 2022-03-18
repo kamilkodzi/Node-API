@@ -1,6 +1,5 @@
 import db from "../config/databaseConfiguration";
 import dbSchema from "../config/databaseSchema";
-import ExpressError from "../helpers/ExpressError";
 
 const authenticateViaBasicAuth = async (username, password) => {
   try {

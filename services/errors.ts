@@ -13,22 +13,22 @@ const getErrors = async (offset: number, rowslimit: number) => {
 };
 
 const addNewError = async (req) => {
-  const logWasCreated = req.body[consts.httpBodyAndQueries.body_logWasCreated];
+  const logWasCreated = req.body[consts.httpBodyAndQueries.logWasCreated];
   const logWasUploadedToApi = req.requestTime;
   const sendFromSource =
-    req.body[consts.httpBodyAndQueries.body_sendFromSource];
+    req.body[consts.httpBodyAndQueries.sendFromSource];
   const sendFromSystem =
-    req.body[consts.httpBodyAndQueries.body_sendFromSystem];
+    req.body[consts.httpBodyAndQueries.sendFromSystem];
   const sendFromCustomer =
-    req.body[consts.httpBodyAndQueries.body_sendFromCustomer];
-  const sendFromUser = req.body[consts.httpBodyAndQueries.body_sendFromUser];
+    req.body[consts.httpBodyAndQueries.sendFromCustomer];
+  const sendFromUser = req.body[consts.httpBodyAndQueries.sendFromUser];
   const shortDescription =
-    req.body[consts.httpBodyAndQueries.body_shortDescription];
+    req.body[consts.httpBodyAndQueries.shortDescription];
   const longDescription =
-    req.body[consts.httpBodyAndQueries.body_longDescription];
-  const errorCode = req.body[consts.httpBodyAndQueries.body_errorCode];
+    req.body[consts.httpBodyAndQueries.longDescription];
+  const errorCode = req.body[consts.httpBodyAndQueries.errorCode];
   const errorDescription =
-    req.body[consts.httpBodyAndQueries.body_errorDescription];
+    req.body[consts.httpBodyAndQueries.errorDescription];
   const isShowingAnError = 1;
   const creationTimeInMiliseconds = new Date(logWasCreated).valueOf();
   const preventDuplicateId2 =

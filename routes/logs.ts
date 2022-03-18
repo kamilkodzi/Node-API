@@ -12,7 +12,8 @@ router
   .get(logsControler.redirectToLogsRoute)
   .post(
     commonValidation.structureValidation(
-      logsValidation.structureSchemaForPostMethod
+      logsValidation.structureSchemaForPostMethod,
+      { searchInBody: true }
     ),
     logsValidation.contentValidationforPostMethod(),
     errorHandler.validationErrCatch,
@@ -24,7 +25,8 @@ router
   .route("/logs")
   .get(
     commonValidation.structureValidation(
-      logsValidation.structureSchemaForGetMethod
+      logsValidation.structureSchemaForGetMethod,
+      { searchInQueryParams: true }
     ),
     logsValidation.contentValidationforGetMethod(),
     errorHandler.validationErrCatch,

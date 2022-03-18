@@ -9,7 +9,7 @@ const createGetResponse = (
   const responseDataText = consts.apiResponseText.get_responseData;
   const resonseMetaText = consts.apiResponseText.get_responseMeta;
   const responsePageText = consts.apiResponseText.get_responsePage;
-  const responseRowLimits = consts.httpBodyAndQueries.query_rowslimit;
+  const responseRowLimits = consts.httpBodyAndQueries.rowslimit;
   const responseRowsAmountText =
     consts.apiResponseText.get_responseCountOfRowsReturnedByQuery;
 
@@ -36,9 +36,7 @@ const createAfterRefreshAllowedResourcesResponse = (
   sourcesResults,
   customersResults
 ) => {
-  const resonseMetaText = consts.apiResponseText.get_responseMeta;
   const responseDataText = consts.apiResponseText.get_responseData;
-  const handfulInformation = consts.apiResponseText.get_handfulInformation;
   const responseSystemsRefreshText =
     consts.apiResponseText.get_allowedResourcesSystems;
   const responseSourcesRefreshText =

@@ -5,9 +5,9 @@ import requestTime from "../middlewares/requestTime";
 import databaseSchema from "../config/databaseSchema";
 
 const getLastUpdateDate = async (req, res, next) => {
-  const customer = req.query[consts.httpBodyAndQueries.query_customer];
-  const source = req.query[consts.httpBodyAndQueries.query_source];
-  const system = req.query[consts.httpBodyAndQueries.query_system];
+  const customer = req.query[consts.httpBodyAndQueries.customer];
+  const source = req.query[consts.httpBodyAndQueries.source];
+  const system = req.query[consts.httpBodyAndQueries.system];
   const fixedRowslimit = 1;
   const fixedPageNumber = 1;
   const logWasCreated = databaseSchema.systemlogsTablel.col_logWasCreated;
