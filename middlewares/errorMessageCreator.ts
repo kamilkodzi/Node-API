@@ -1,6 +1,16 @@
 import ExpressError from "../helpers/ExpressError";
 
-const errorMessageCreator = (err, req, res, next) => {
+const errorMessageCreator = (err, req: any, res, next) => {
+  console.log(
+    `There is error: ${JSON.stringify(
+      err
+    )}. Request was send in to route: ${JSON.stringify(
+      req.url
+    )}. Boody contains: ${JSON.stringify(
+      req.body
+    )}. Query contains: ${JSON.stringify(req.query)}`
+  );
+
   const { code, message, type } = err;
   switch (true) {
     case code == "ER_DUP_ENTRY":
