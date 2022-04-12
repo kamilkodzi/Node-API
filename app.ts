@@ -11,14 +11,17 @@ import basicAuth from "./middlewares/basicAuth";
 import lastUpdateRoutes from "./routes/lastUpdate";
 import allowedController from "./controllers/allowedResources";
 import makeUrlToLowerCase from "./mutators/toLowerCaseURL";
+import { allowCors } from "./middlewares/allowCorsDomain";
 
 const app = express();
 const port = 4050;
 app.use(express.json());
 app.use(helmet());
+app.use(allowCors);
 app.use(makeUrlToLowerCase);
 app.use(requestTime.requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
+
 app.use(basicAuth);
 app.use(allowedResources);
 app.use(logsRoutes);
