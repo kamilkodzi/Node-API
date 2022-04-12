@@ -19,11 +19,11 @@ app.use(helmet());
 app.use(makeUrlToLowerCase);
 app.use(requestTime.requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
-
-app.use(basicAuth, allowedResources);
-app.use(basicAuth, logsRoutes);
-app.use(basicAuth, errorsRoutes);
-app.use(basicAuth, lastUpdateRoutes);
+app.use(basicAuth);
+app.use(allowedResources);
+app.use(logsRoutes);
+app.use(lastUpdateRoutes);
+app.use(errorsRoutes);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Server could not understand your request", 400));
