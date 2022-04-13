@@ -1,11 +1,11 @@
 import consts from "../config/consts";
-import apiConfig from "../config/apiConfig";
+import config from "../config/apiConfig";
 
 const changePageIfUndefined = (req, res, next) => {
   let page = req.query[`${consts.httpBodyAndQueries.page}`];
   let rowslimit = req.query[`${consts.httpBodyAndQueries.rowslimit}`];
-  const MaxRowsPerGetRequest = apiConfig.maximumRowsPerGetRequest;
-  const defaultRowsAmount = apiConfig.defaultAmountOfRowsPerGetRquest;
+  const MaxRowsPerGetRequest = config.apiConfig.maximumRowsPerGetRequest;
+  const defaultRowsAmount = config.apiConfig.defaultAmountOfRowsPerGetRquest;
 
   if (!page) page = 1;
   if (rowslimit > MaxRowsPerGetRequest) rowslimit = MaxRowsPerGetRequest;
@@ -24,10 +24,8 @@ const changeDescriptionIfUndefined = (req, res, next) => {
   if (!shortDescription) shortDescription = "";
   if (!longDescription) longDescription = "";
 
-  req.body[`${consts.httpBodyAndQueries.shortDescription}`] =
-    shortDescription;
-  req.body[`${consts.httpBodyAndQueries.longDescription}`] =
-    longDescription;
+  req.body[`${consts.httpBodyAndQueries.shortDescription}`] = shortDescription;
+  req.body[`${consts.httpBodyAndQueries.longDescription}`] = longDescription;
 
   next();
 };

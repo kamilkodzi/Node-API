@@ -11,10 +11,12 @@ import basicAuth from "./middlewares/basicAuth";
 import lastUpdateRoutes from "./routes/lastUpdate";
 import allowedController from "./controllers/allowedResources";
 import makeUrlToLowerCase from "./mutators/toLowerCaseURL";
+import session from "express-session";
 import { allowCors } from "./middlewares/allowCorsDomain";
-
+import config from "./config/apiConfig";
 const app = express();
-const port = 4050;
+
+app.use(session(config.sessionConfig));
 app.use(express.json());
 app.use(helmet());
 app.use(allowCors);
@@ -41,6 +43,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Logger is listening on port ${port}`);
+app.listen(config.apiConfig.port, () => {
+  console.log(`Logger is listening on port ${config.apiConfig.port}`);
 });

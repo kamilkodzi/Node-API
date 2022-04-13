@@ -1,5 +1,5 @@
 import { body, query, ValidationChain } from "express-validator";
-import apiConfig from "../config/apiConfig";
+import config from "../config/apiConfig";
 import consts from "../config/consts";
 import commonValidators from "../validationAndSanitization/common";
 import AllowedResources from "../helpers/AllowedResources";
@@ -31,9 +31,9 @@ const contentValidationforGetMethod = (): ValidationChain[] => {
       .toInt(),
     query(consts.httpBodyAndQueries.rowslimit)
       .optional()
-      .isInt({ min: 1, max: apiConfig.maximumRowsPerGetRequest })
+      .isInt({ min: 1, max: config.apiConfig.maximumRowsPerGetRequest })
       .withMessage(
-        `Value should be greather than 0 and less than ${apiConfig.maximumRowsPerGetRequest}`
+        `Value should be greather than 0 and less than ${config.apiConfig.maximumRowsPerGetRequest}`
       )
       .toInt(),
   ];
