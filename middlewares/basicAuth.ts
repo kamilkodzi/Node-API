@@ -15,6 +15,7 @@ const basicAuth = async (req, res, next) => {
       "ascii"
     );
     const [username, password] = credentials.split(":");
+    console.log("userName z basic Auth: ", username);
     try {
       const user = await usersController.authenticate({ username, password });
       if (!user)

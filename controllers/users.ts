@@ -9,6 +9,7 @@ const authenticate = async ({ username, password }) => {
     userNameToLowerCase,
     password
   );
+  console.log("user z kontrolerA : ", user);
   if (user) {
     return user;
   }

@@ -14,6 +14,7 @@ import makeUrlToLowerCase from "./mutators/toLowerCaseURL";
 import session from "express-session";
 import { allowCors } from "./middlewares/allowCorsDomain";
 import config from "./config/apiConfig";
+import loginRoutes from "./routes/login";
 const app = express();
 
 app.use(session(config.sessionConfig));
@@ -24,6 +25,7 @@ app.use(makeUrlToLowerCase);
 app.use(requestTime.requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
 
+app.use(loginRoutes);
 app.use(basicAuth);
 app.use(allowedResources);
 app.use(logsRoutes);
