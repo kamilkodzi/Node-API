@@ -5,7 +5,7 @@ const store = new session.MemoryStore();
 const apiConfig = {
   maximumRowsPerGetRequest: 500,
   defaultAmountOfRowsPerGetRquest: 100,
-  port: 4050,
+  port: 4200,
 };
 
 const sessionConfig = {

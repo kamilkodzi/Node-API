@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { crossOriginEmbedderPolicy } from "helmet";
 import usersController from "../controllers/users";
 import ExpressError from "../helpers/ExpressError";
 
@@ -9,17 +10,23 @@ type LoginRequest = {
 };
 
 router.route("/login").post(async (req, res, next) => {
-  const credentials: LoginRequest = req.body;
-  const user = await usersController.authenticate(credentials);
-  if (!user) {
-    console.log("powienien poleciec next");
-    next(new ExpressError("Invalid Authentication Credentials", 401));
+  //   @ts-ignore
+  if (req.session.authenticated === true) {
+    //   @ts-ignore
+    res.send("juz zalogowany jako " + req.session.user.username);
   } else {
-    //   @ts-ignore
-    req.session.user = user;
-    //   @ts-ignore
-    req.session.authenticated = true;
-    res.send({ user });
+    const credentials: LoginRequest = req.body;
+    const user = await usersController.authenticate(credentials);
+    if (!user) {
+      console.log("powienien poleciec next");
+      next(new ExpressError("Invalid Authentication Credentials", 401));
+    } else {
+      //   @ts-ignore
+      req.session.user = user;
+      //   @ts-ignore
+      req.session.authenticated = true;
+      res.send({ user: user.username, message: "You succesfully loged in" });
+    }
   }
 });
 

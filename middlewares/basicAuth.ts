@@ -2,7 +2,9 @@ import ExpressError from "../helpers/ExpressError";
 import usersController from "../controllers/users";
 
 const basicAuth = async (req, res, next) => {
-  if (
+  if (req.session.authenticated === true) {
+    next();
+  } else if (
     !req.headers.authorization ||
     req.headers.authorization.indexOf("Basic ") === -1
   ) {
