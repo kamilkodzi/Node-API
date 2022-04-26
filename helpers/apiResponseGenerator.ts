@@ -53,7 +53,19 @@ const createAfterRefreshAllowedResourcesResponse = (
   };
 };
 
+const authenticationResponse = (sessionStatus = false, user = null) => {
+  const statusResponseText =
+    consts.apiResponseText.authentication_status_response;
+  const userResponseText = consts.apiResponseText.authentication_user_response;
+
+  return {
+    [userResponseText]: user,
+    [statusResponseText]: sessionStatus,
+  };
+};
+
 export = {
+  authenticationResponse,
   createGetResponse,
   createPostResponse,
   createAfterRefreshAllowedResourcesResponse,

@@ -27,7 +27,9 @@ const systemlogsTablel = {
 const loggerusersTable = {
   tab_tableName: "loggerusers",
   col_username: "username",
+  col_username_max_length: 15,
   col_password: "password",
+  col_password_max_length: 15,
   col_isAdmin: "isAdmin",
 };
 

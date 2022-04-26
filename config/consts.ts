@@ -17,6 +17,8 @@ const httpBodyAndQueries = {
   isShowingAnError: "isShowingAnError",
   errorCode: "errorCode",
   errorDescription: "errorDescription",
+  username: "username",
+  password: "password",
 };
 const httpParams = {
   resourceName: "resourceName",
@@ -38,6 +40,8 @@ const apiResponseText = {
   get_allowedResourcesCustomers: "customers",
   get_allowedResourcesStatusSynchronized: "synchronised",
   get_allowedResourcesStatus_NOT_Synchronized: "not synchronised",
+  authentication_status_response: "status",
+  authentication_user_response: "user",
 };
 
 const allowedCustomers = [

@@ -1,33 +1,35 @@
 import { Router } from "express";
-import { crossOriginEmbedderPolicy } from "helmet";
 import usersController from "../controllers/users";
-import ExpressError from "../helpers/ExpressError";
+import errorHandler from "../helpers/errorsHandlers";
+import commonValidation from "../validationAndSanitization/common";
+import loginValidation from "../validationAndSanitization/login";
 
 const router = Router();
-type LoginRequest = {
-  username: string;
-  password: string;
-};
 
-router.route("/login").post(async (req, res, next) => {
-  //   @ts-ignore
-  if (req.session.authenticated === true) {
-    //   @ts-ignore
-    res.send("juz zalogowany jako " + req.session.user.username);
-  } else {
-    const credentials: LoginRequest = req.body;
-    const user = await usersController.authenticate(credentials);
-    if (!user) {
-      console.log("powienien poleciec next");
-      next(new ExpressError("Invalid Authentication Credentials", 401));
-    } else {
-      //   @ts-ignore
-      req.session.user = user;
-      //   @ts-ignore
-      req.session.authenticated = true;
-      res.send({ user: user.username, message: "You succesfully loged in" });
+router.route("/isLoggedIn").get(
+  commonValidation.structureValidation(
+    loginValidation.structureSchemaForGetMethod,
+    {
+      searchInQueryParams: true,
+      searchInBody: true,
+      searchInRouteParams: true,
     }
-  }
-});
+  ),
+  usersController.isLogedIn
+);
+
+router.route("/login").post(
+  commonValidation.structureValidation(
+    loginValidation.structureSchemaForPostMethod,
+    {
+      searchInQueryParams: true,
+      searchInBody: true,
+      searchInRouteParams: true,
+    }
+  ),
+  loginValidation.contentValidationforPostMethod(),
+  errorHandler.validationErrCatch,
+  errorHandler.asyncErrCatch(usersController.logIn)
+);
 
 export default router;

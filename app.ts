@@ -12,7 +12,6 @@ import lastUpdateRoutes from "./routes/lastUpdate";
 import allowedController from "./controllers/allowedResources";
 import makeUrlToLowerCase from "./mutators/toLowerCaseURL";
 import session from "express-session";
-// import { allowCors } from "./middlewares/allowCorsDomain";
 import config from "./config/apiConfig";
 import loginRoutes from "./routes/login";
 const app = express();
@@ -20,19 +19,18 @@ const app = express();
 app.use(session(config.sessionConfig));
 app.use(express.json());
 app.use(helmet());
-// app.use(allowCors);
 app.use(makeUrlToLowerCase);
 app.use(requestTime.requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
 
 app.use("/api", loginRoutes);
-app.use(basicAuth);
-app.use(allowedResources);
-app.use(logsRoutes);
-app.use(lastUpdateRoutes);
-app.use(errorsRoutes);
+app.use("/api", basicAuth);
+app.use("/api", allowedResources);
+app.use("/api", logsRoutes);
+app.use("/api", lastUpdateRoutes);
+app.use("/api", errorsRoutes);
 
-app.all("*", (req, res, next) => {
+app.all("/api/*", (req, res, next) => {
   next(new ExpressError("Server could not understand your request", 400));
 });
 
