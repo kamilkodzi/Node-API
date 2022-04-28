@@ -1,18 +1,24 @@
-import db from "../config/databaseConfiguration";
+import knex from "../config/databaseConfiguration";
 import dbSchema from "../config/databaseSchema";
+
+const tb = dbSchema.systemlogsTablel;
 
 const getLastUpdate = async (
   customer: string,
   source: string,
   system: string
 ) => {
-  const queryResults = await db
-    .promise()
-    .query(
-      `SELECT ${dbSchema.systemlogsTablel.col_logWasCreated} FROM ${dbSchema.systemlogsTablel.tab_tableName} WHERE ${dbSchema.systemlogsTablel.col_sendFromCustomer} = ? AND ${dbSchema.systemlogsTablel.col_sendFromSource} = ? AND ${dbSchema.systemlogsTablel.col_sendFromSystem} = ? ORDER BY ${dbSchema.systemlogsTablel.col_logWasCreated} DESC LIMIT 1`,
-      [customer, source, system]
-    );
-  return queryResults[0];
+  const queryResults = await knex(tb.tab_tableName)
+    .select(tb.col_logWasCreated)
+    .where({
+      [tb.col_sendFromCustomer]: customer,
+      [tb.col_sendFromSource]: source,
+      [tb.col_sendFromSystem]: system,
+    })
+    .orderBy(tb.col_logWasCreated, "desc")
+    .limit(1);
+
+  return queryResults;
 };
 
 export = {

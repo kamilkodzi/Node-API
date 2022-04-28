@@ -23,8 +23,8 @@ app.use(makeUrlToLowerCase);
 app.use(requestTime.requestTime);
 app.use(allowedController.refreshAllInBackgrourn);
 
-app.use("/api", loginRoutes);
-app.use("/api", basicAuth);
+// app.use("/api", loginRoutes);
+// app.use("/api", basicAuth);
 app.use("/api", allowedResources);
 app.use("/api", logsRoutes);
 app.use("/api", lastUpdateRoutes);

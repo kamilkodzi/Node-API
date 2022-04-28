@@ -2,7 +2,7 @@ import { Router } from "express";
 import errorHandler from "../helpers/errorsHandlers";
 import lastUpdateValidation from "../validationAndSanitization/lastUpdate";
 import lastUpdateController from "../controllers/lastUpdate";
-import commonValidation from "../validationAndSanitization/common"; //ok
+import commonValidation from "../validationAndSanitization/common";
 
 const router = Router();
 

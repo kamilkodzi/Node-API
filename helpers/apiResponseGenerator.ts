@@ -27,7 +27,7 @@ const createPostResponse = (data) => {
   const postResponseId = consts.apiResponseText.post_responseId;
 
   return {
-    [postResponseId]: data["insertId"],
+    [postResponseId]: data,
   };
 };
 

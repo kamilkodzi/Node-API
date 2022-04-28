@@ -1,66 +1,66 @@
-import db from "../config/databaseConfiguration";
+import knex from "../config/databaseConfiguration";
 import dbSchema from "../config/databaseSchema";
 import consts from "../config/consts";
+import { preventDuplicateIdGenerator } from "../helpers/utils";
+const tb = dbSchema.systemlogsTablel;
 
 const getLogs = async (offset: number, rowslimit: number) => {
-  const queryResults = await db
-    .promise()
-    .query(
-      `SELECT ${dbSchema.systemlogsTablel.col_id},${dbSchema.systemlogsTablel.col_logWasCreated},${dbSchema.systemlogsTablel.col_logWasUploadedToApi},${dbSchema.systemlogsTablel.col_sendFromSource},${dbSchema.systemlogsTablel.col_sendFromSystem},${dbSchema.systemlogsTablel.col_sendFromCustomer},${dbSchema.systemlogsTablel.col_sendFromUser},${dbSchema.systemlogsTablel.col_shortDescription},${dbSchema.systemlogsTablel.col_longDescription},${dbSchema.systemlogsTablel.col_comment} FROM ${dbSchema.systemlogsTablel.tab_tableName} WHERE ${dbSchema.systemlogsTablel.col_isShowingAnError} is null or ${dbSchema.systemlogsTablel.col_isShowingAnError} = 0 ORDER BY ${dbSchema.systemlogsTablel.col_logWasCreated} DESC LIMIT ?,?`,
-      [offset, rowslimit]
-    );
-  return queryResults[0];
+  const queryResults = await knex(tb.tab_tableName)
+    .select(
+      tb.col_id,
+      tb.col_logWasCreated,
+      tb.col_logWasUploadedToApi,
+      tb.col_sendFromSource,
+      tb.col_sendFromSystem,
+      tb.col_sendFromCustomer,
+      tb.col_sendFromUser,
+      tb.col_shortDescription,
+      tb.col_longDescription,
+      tb.col_comment
+    )
+    .where(tb.col_isShowingAnError, 0)
+    .orWhereNull(tb.col_isShowingAnError)
+    .orderBy(tb.col_logWasCreated, "desc")
+    .limit(rowslimit)
+    .offset(offset);
+  return queryResults;
 };
 
 const addNewLog = async (req) => {
   const logWasCreated = req.body[consts.httpBodyAndQueries.logWasCreated];
   const logWasUploadedToApi = req.requestTime;
-  const sendFromSource =
-    req.body[consts.httpBodyAndQueries.sendFromSource];
-  const sendFromSystem =
-    req.body[consts.httpBodyAndQueries.sendFromSystem];
-  const sendFromCustomer =
-    req.body[consts.httpBodyAndQueries.sendFromCustomer];
+  const sendFromSource = req.body[consts.httpBodyAndQueries.sendFromSource];
+  const sendFromSystem = req.body[consts.httpBodyAndQueries.sendFromSystem];
+  const sendFromCustomer = req.body[consts.httpBodyAndQueries.sendFromCustomer];
   const sendFromUser = req.body[consts.httpBodyAndQueries.sendFromUser];
-  const shortDescription =
-    req.body[consts.httpBodyAndQueries.shortDescription];
-  const longDescription =
-    req.body[consts.httpBodyAndQueries.longDescription];
+  const shortDescription = req.body[consts.httpBodyAndQueries.shortDescription];
+  const longDescription = req.body[consts.httpBodyAndQueries.longDescription];
   const isShowingAnError = 0;
   const creationTimeInMiliseconds = new Date(logWasCreated).valueOf();
-  const preventDuplicateId2 =
-    creationTimeInMiliseconds +
-    "." +
-    sendFromSystem +
-    "." +
-    sendFromSource +
-    "." +
-    sendFromCustomer +
-    "." +
-    sendFromUser +
-    "." +
-    isShowingAnError +
-    "." +
-    shortDescription;
+  const preventDuplicateId = preventDuplicateIdGenerator(
+    creationTimeInMiliseconds,
+    sendFromSystem,
+    sendFromSource,
+    sendFromCustomer,
+    sendFromUser,
+    isShowingAnError,
+    shortDescription
+  );
 
-  const queryResults = await db
-    .promise()
-    .query(
-      `INSERT INTO ${dbSchema.systemlogsTablel.tab_tableName} (${dbSchema.systemlogsTablel.col_logWasCreated},${dbSchema.systemlogsTablel.col_logWasUploadedToApi},${dbSchema.systemlogsTablel.col_sendFromSource},${dbSchema.systemlogsTablel.col_sendFromSystem},${dbSchema.systemlogsTablel.col_sendFromCustomer},${dbSchema.systemlogsTablel.col_sendFromUser},${dbSchema.systemlogsTablel.col_shortDescription},${dbSchema.systemlogsTablel.col_longDescription},${dbSchema.systemlogsTablel.col_isShowingAnError},${dbSchema.systemlogsTablel.col_preventDuplicateId2}) VALUES(?,?,?,?,?,?,?,?,?,?)`,
-      [
-        logWasCreated,
-        logWasUploadedToApi,
-        sendFromSource,
-        sendFromSystem,
-        sendFromCustomer,
-        sendFromUser,
-        shortDescription,
-        longDescription,
-        isShowingAnError,
-        preventDuplicateId2,
-      ]
-    );
-  return queryResults[0];
+  const queryResults = await knex(tb.tab_tableName).insert({
+    [tb.col_logWasCreated]: logWasCreated,
+    [tb.col_logWasUploadedToApi]: logWasUploadedToApi,
+    [tb.col_sendFromSource]: sendFromSource,
+    [tb.col_sendFromSystem]: sendFromSystem,
+    [tb.col_sendFromCustomer]: sendFromCustomer,
+    [tb.col_sendFromUser]: sendFromUser,
+    [tb.col_shortDescription]: shortDescription,
+    [tb.col_longDescription]: longDescription,
+    [tb.col_isShowingAnError]: isShowingAnError,
+    [tb.col_preventDuplicateId2]: preventDuplicateId,
+  });
+
+  return queryResults;
 };
 
 export = {

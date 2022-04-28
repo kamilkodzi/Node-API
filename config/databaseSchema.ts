@@ -57,7 +57,7 @@ const customersTable = {
   col_comments_max_length: 255,
 };
 
-export = {
+export default {
   systemlogsTablel,
   loggerusersTable,
   systemsTable,

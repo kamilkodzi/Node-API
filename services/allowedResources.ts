@@ -1,15 +1,20 @@
-import db from "../config/databaseConfiguration";
+import knex from "../config/databaseConfiguration";
 import databaseSchema from "../config/databaseSchema";
 
 const getAllowedResourceByNameAndId = async (
   allowedResourcesTableName,
   id = undefined
 ) => {
-  const filterById = id ? "WHERE id=?" : "";
-  const queryResults = await db
-    .promise()
-    .query(`SELECT * FROM ${allowedResourcesTableName} ${filterById}`, [id]);
-  return queryResults[0];
+  const test2 = await knex(allowedResourcesTableName).select();
+  const queryResults = await knex(allowedResourcesTableName)
+    .select()
+    .where((qb) => {
+      if (id) {
+        qb.where("id", id);
+      }
+    });
+
+  return queryResults;
 };
 
 const addNewAllowedResource = async (
@@ -38,13 +43,11 @@ const addNewAllowedResource = async (
       break;
   }
 
-  const queryResults = await db
-    .promise()
-    .query(
-      `INSERT INTO ${tableName} (${allowedResourceColumnName},${commentsColumnName})VALUES(?,?)`,
-      [allowedResourceName, comments]
-    );
-  return queryResults[0];
+  const queryResults = await knex(tableName).insert([
+    { allowedResourceColumnName: allowedResourceName },
+    { commentsColumnName: comments },
+  ]);
+  return queryResults;
 };
 
 export = {
