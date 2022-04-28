@@ -1,25 +1,24 @@
-// import db from "../config/databaseConfiguration";
-// import dbSchema from "../config/databaseSchema";
+import knex from "../config/databaseConfiguration";
+import dbSchema from "../config/databaseSchema";
+const tb = dbSchema.loggerusersTable;
 
-// const authenticateViaBasicAuth = async (username, password) => {
-//   try {
-//     const queryResults = await db
-//       .promise()
-//       .query(
-//         `SELECT * FROM ${dbSchema.loggerusersTable.tab_tableName} WHERE ${dbSchema.loggerusersTable.col_username} = ? AND ${dbSchema.loggerusersTable.col_password} = ?`,
-//         [username, password]
-//       );
-//     if (queryResults[0][0] !== []) {
-//       const user = queryResults[0][0];
-//       return user;
-//     } else {
-//       return null;
-//     }
-//   } catch (error) {
-//     return error;
-//   }
-// };
+const authenticateViaBasicAuth = async (username, password) => {
+  try {
+    const queryResults = await knex(tb.tab_tableName)
+      .where({
+        [tb.col_username]: username,
+        [tb.col_password]: password,
+      })
+      .then((user) => {
+        if (!user[0]) return null;
+        return user[0];
+      });
+    return queryResults;
+  } catch (error) {
+    return error;
+  }
+};
 
-// export = {
-//   authenticateViaBasicAuth,
-// };
+export = {
+  authenticateViaBasicAuth,
+};

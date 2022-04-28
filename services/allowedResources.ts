@@ -5,7 +5,6 @@ const getAllowedResourceByNameAndId = async (
   allowedResourcesTableName,
   id = undefined
 ) => {
-  const test2 = await knex(allowedResourcesTableName).select();
   const queryResults = await knex(allowedResourcesTableName)
     .select()
     .where((qb) => {
@@ -43,10 +42,10 @@ const addNewAllowedResource = async (
       break;
   }
 
-  const queryResults = await knex(tableName).insert([
-    { allowedResourceColumnName: allowedResourceName },
-    { commentsColumnName: comments },
-  ]);
+  const queryResults = await knex(tableName).insert({
+    allowedResourceColumnName: allowedResourceName,
+    commentsColumnName: comments,
+  });
   return queryResults;
 };
 
