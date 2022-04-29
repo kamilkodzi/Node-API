@@ -2,7 +2,7 @@ import lastUpdateService from "../services/lastUpdate";
 import consts from "../config/consts";
 import apiResponseCreator from "../helpers/apiResponseGenerator";
 import requestTime from "../middlewares/requestTime";
-import databaseSchema from "../config/databaseSchema";
+import databaseSchema from "../database/databaseSchema";
 
 const getLastUpdateDate = async (req, res, next) => {
   const customer = req.query[consts.httpBodyAndQueries.customer];

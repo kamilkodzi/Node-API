@@ -1,6 +1,6 @@
 import { body, ValidationChain } from "express-validator";
 import consts from "../config/consts";
-import databaseSchema from "../config/databaseSchema";
+import databaseSchema from "../database/databaseSchema";
 
 const structureSchemaForGetMethod = [];
 

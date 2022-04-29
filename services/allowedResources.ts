@@ -1,5 +1,5 @@
-import knex from "../config/databaseConfiguration";
-import databaseSchema from "../config/databaseSchema";
+import knex from "../database/databaseConfiguration";
+import databaseSchema from "../database/databaseSchema";
 
 const getAllowedResourceByNameAndId = async (
   allowedResourcesTableName,
@@ -43,8 +43,8 @@ const addNewAllowedResource = async (
   }
 
   const queryResults = await knex(tableName).insert({
-    allowedResourceColumnName: allowedResourceName,
-    commentsColumnName: comments,
+    [allowedResourceColumnName]: allowedResourceName,
+    [commentsColumnName]: comments,
   });
   return queryResults;
 };

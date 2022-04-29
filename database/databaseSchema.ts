@@ -21,7 +21,9 @@ const systemlogsTablel = {
   col_errorDescription: "errorDescription",
   col_errorDescription_max_length: 3000,
   col_comment: "comment",
+  col_comment_max_length: 3000,
   col_preventDuplicateId2: "preventDuplicateId2",
+  col_preventDuplicateId2_max_length: 160,
 };
 
 const loggerusersTable = {
@@ -31,6 +33,8 @@ const loggerusersTable = {
   col_password: "password",
   col_password_max_length: 15,
   col_isAdmin: "isAdmin",
+  col_comment: "comment",
+  col_comment_max_length: 255,
 };
 
 const systemsTable = {

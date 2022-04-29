@@ -1,9 +1,7 @@
-// Update with your config settings.
+import "dotenv/config";
+import type { Knex } from "knex";
 
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
-module.exports = {
+const config: { [key: string]: Knex.Config } = {
   development: {
     client: "mysql2",
     version: "8.0.27",
@@ -15,5 +13,14 @@ module.exports = {
       database: process.env.DB_MYSQL_DATABASE,
     },
     pool: { min: 0, max: 7 },
+    migrations: {
+      tableName: "migrations",
+      directory: "./database/migrations",
+    },
+    seeds: {
+      directory: "./database/seeds",
+    },
   },
 };
+
+export default config;

@@ -1,5 +1,5 @@
-import knex from "../config/databaseConfiguration";
-import dbSchema from "../config/databaseSchema";
+import knex from "../database/databaseConfiguration";
+import dbSchema from "../database/databaseSchema";
 
 const tb = dbSchema.systemlogsTablel;
 

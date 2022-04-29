@@ -3,7 +3,7 @@ import ExpressError from "../helpers/ExpressError";
 import AllowedResources from "../helpers/AllowedResources";
 import allowedResourcesService from "..//services/allowedResources";
 import consts from "../config/consts";
-import databaseSchema from "../config/databaseSchema";
+import databaseSchema from "../database/databaseSchema";
 
 const postResources = async (req, res, next) => {
   const resourceToAdd = req.params[consts.httpParams.resourceName];

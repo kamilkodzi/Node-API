@@ -3,7 +3,7 @@ import config from "../config/apiConfig";
 import consts from "../config/consts";
 import commonValidators from "../validationAndSanitization/common";
 import AllowedResources from "../helpers/AllowedResources";
-import databaseSchema from "../config/databaseSchema";
+import databaseSchema from "../database/databaseSchema";
 
 const structureSchemaForGetMethod = [
   consts.httpBodyAndQueries.rowslimit,

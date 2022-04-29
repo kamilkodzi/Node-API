@@ -1,7 +1,7 @@
-import dbSchema from "../config/databaseSchema";
+import dbSchema from "../database/databaseSchema";
 import allowedResourcesService from "../services/allowedResources";
 import consts from "../config/consts";
-import databaseSchema from "../config/databaseSchema";
+import databaseSchema from "../database/databaseSchema";
 
 var allowedCustomersSingleton = consts.allowedCustomers;
 var allowedSourcesSingleton = consts.allowedSources;
