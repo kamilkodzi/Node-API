@@ -1,23 +1,28 @@
-#How to install loggerApp
-Download project with pul request from github repository:
+# How to install loggerApp
+
+#### Download project with pul request from github repository:
 
 > kamil:tbd(add a terminal command)
 
-Install required dependencies with command:
+#### Install required dependencies with command:
 
 > npm install
 
-Baza danych - zainstalowany serwer mySQL
-dodanie plikiu .env do głównego katalogu z zawartością:
-DB_MYSQL_HOST=localhost
-DB_MYSQL_DATABASE=uzupełnić
-DB_MYSQL_USER=uzupełnić
-DB_MYSQL_PASS=uzupełnić
+#### Install MySQL server (database) on your computer.
+
+#### Add new file to root directory of this project .env then add 5 lines inside:
+
+DB_MYSQL_HOST=localhost  
+DB_MYSQL_DATABASE=uzupełnić  
+DB_MYSQL_USER=uzupełnić  
+DB_MYSQL_PASS=uzupełnić  
 SECRET_SESSION_ID=uzupełnić
 
-kolejno komendy w terminalu by utworzyć tabele w bazie i dodac dane testowe:
-knex migrate:latest
-knex seed:run
+#### Create tables and insert test data inside your project with commands:
 
-na końcu:
-npm run dev
+> knex migrate:latest
+> knex seed:run
+
+#### Finally run project with:
+
+> npm run dev
