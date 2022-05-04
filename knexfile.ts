@@ -12,7 +12,7 @@ const config: { [key: string]: Knex.Config } = {
       password: process.env.DB_MYSQL_PASS,
       database: process.env.DB_MYSQL_DATABASE,
     },
-    pool: { min: 0, max: 7 },
+    pool: { min: 0, max: 10 },
     migrations: {
       tableName: "migrations",
       directory: "./database/migrations",

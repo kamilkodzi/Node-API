@@ -19,7 +19,11 @@ const httpBodyAndQueries = {
   errorDescription: "errorDescription",
   username: "username",
   password: "password",
+  id: "id",
+  logWasCreatedFrom: "dateFrom",
+  logWasCreatedTo: "dateTo",
 };
+
 const httpParams = {
   resourceName: "resourceName",
   resourceValue_systems: "systems",

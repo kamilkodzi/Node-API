@@ -14,9 +14,14 @@ const redirectToLogsRoute = (req, res, next) => {
 const getLatestCreatedLogs = async (req, res, next) => {
   const page = req.query[consts.httpBodyAndQueries.page];
   const rowslimit = req.query[consts.httpBodyAndQueries.rowslimit];
-  const pageTurnedInToOffset = getOffset(page, rowslimit);
+  const offset = getOffset(page, rowslimit);
+  const queryParams = req.query;
   const queryResults: [] = await logsService
-    .getLogs(pageTurnedInToOffset, rowslimit)
+    .getLogs({
+      offset,
+      rowslimit,
+      queryParams,
+    })
     .then((data: []) => {
       return data;
     });

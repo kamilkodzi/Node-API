@@ -6,9 +6,14 @@ import consts from "../config/consts";
 const getLatestCreatedErrors = async (req, res, next) => {
   const page = req.query[consts.httpBodyAndQueries.page];
   const rowslimit = req.query[consts.httpBodyAndQueries.rowslimit];
-  const pageTurnedInToOffset = getOffset(page, rowslimit);
+  const offset = getOffset(page, rowslimit);
+  const queryParams = req.query;
   const queryResults = await errorsService
-    .getErrors(pageTurnedInToOffset, rowslimit)
+    .getErrors({
+      offset,
+      rowslimit,
+      queryParams,
+    })
     .then((data: []) => {
       return data;
     });
@@ -29,7 +34,7 @@ const addNewError = async (req, res, next) => {
   res.status(201).send(apiAnswer);
 };
 
-export = {
+export default {
   getLatestCreatedErrors,
   addNewError,
 };

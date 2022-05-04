@@ -6,8 +6,18 @@ import AllowedResources from "../helpers/AllowedResources";
 import databaseSchema from "../database/databaseSchema";
 
 const structureSchemaForGetMethod = [
-  consts.httpBodyAndQueries.rowslimit,
   consts.httpBodyAndQueries.page,
+  consts.httpBodyAndQueries.rowslimit,
+  consts.httpBodyAndQueries.id,
+  consts.httpBodyAndQueries.logWasCreatedFrom,
+  consts.httpBodyAndQueries.logWasCreatedTo,
+  consts.httpBodyAndQueries.sendFromCustomer,
+  consts.httpBodyAndQueries.sendFromSystem,
+  consts.httpBodyAndQueries.sendFromSource,
+  consts.httpBodyAndQueries.sendFromUser,
+  consts.httpBodyAndQueries.errorCode,
+  consts.httpBodyAndQueries.errorDescription,
+  consts.httpBodyAndQueries.comments,
 ];
 
 const structureSchemaForPostMethod = [
@@ -21,6 +31,15 @@ const structureSchemaForPostMethod = [
 ];
 
 const contentValidationforGetMethod = (): ValidationChain[] => {
+  const customerMaxLength =
+    databaseSchema.customersTable.col_systemName_max_length;
+  const sourceMaxLength = databaseSchema.sourcesTable.col_systemName_max_length;
+  const systemMaxLength =
+    databaseSchema.systemsTable.col_systemName_max_lengths;
+  const sendFromUserMaxLength =
+    databaseSchema.systemlogsTablel.col_sendFromUser_max_length;
+  const shortDescriptionMaxLength =
+    databaseSchema.systemlogsTablel.col_shortDescription_max_length;
   return [
     query(consts.httpBodyAndQueries.page)
       .optional()
@@ -36,6 +55,107 @@ const contentValidationforGetMethod = (): ValidationChain[] => {
         `Value should be greather than 0 and less than ${config.apiConfig.maximumRowsPerGetRequest}`
       )
       .toInt(),
+    query(consts.httpBodyAndQueries.comments)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: 100,
+      })
+      .withMessage(`Enter value that with maximum of 100 characters`)
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.longDescription)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: 100,
+      })
+      .withMessage(`Enter value that with maximum of 100 characters`)
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.shortDescription)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: shortDescriptionMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${shortDescriptionMaxLength} characters`
+      )
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.sendFromUser)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: sendFromUserMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${sendFromUserMaxLength} characters`
+      )
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.sendFromSystem)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: systemMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${systemMaxLength} characters`
+      )
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.sendFromSource)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: sourceMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${sourceMaxLength} characters`
+      )
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.sendFromCustomer)
+      .optional()
+      .notEmpty()
+      .trim()
+      .withMessage("Value is required")
+      .isLength({
+        max: customerMaxLength,
+      })
+      .withMessage(
+        `Enter value that with maximum of ${customerMaxLength} characters`
+      )
+      .toUpperCase(),
+    query(consts.httpBodyAndQueries.id)
+      .optional()
+      .notEmpty()
+      .bail()
+      .isInt({
+        gt: 0,
+      })
+      .withMessage("Value should be a number that is greather than 0")
+      .toInt(),
+    query(consts.httpBodyAndQueries.logWasCreatedFrom)
+      .optional()
+      .notEmpty()
+      .withMessage("Value is required")
+      .isDate()
+      .withMessage("Value should be correct Date in format (YYYY-MM-DD)"),
+    query(consts.httpBodyAndQueries.logWasCreatedTo)
+      .optional()
+      .notEmpty()
+      .withMessage("Value is required")
+      .isDate()
+      .withMessage("Value should be correct Date in format (YYYY-MM-DD)"),
   ];
 };
 
