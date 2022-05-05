@@ -2,7 +2,7 @@
   "name": "loggerapp",
   "version": "1.0.0",
   "description": "Applcation to gather loggs",
-  "main": "app.js",
+  "main": "app.ts",
   "scripts": {
     "start": "node dist/app.js",
     "dev": "nodemon app.ts",
