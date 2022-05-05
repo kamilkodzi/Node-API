@@ -2,7 +2,7 @@
 
 #### Download project with pul request from github repository:
 
-> kamil:tbd(add a terminal command)
+> gh repo clone kamilkodzi/Node-API
 
 #### Install required dependencies with command:
 
