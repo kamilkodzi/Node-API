@@ -20,7 +20,7 @@ SECRET_SESSION_ID=uzupełnić
 
 #### Create tables and insert test data inside your project with commands:
 
-> knex migrate:latest
+> knex migrate:latest  
 > knex seed:run
 
 #### Finally run project with:
