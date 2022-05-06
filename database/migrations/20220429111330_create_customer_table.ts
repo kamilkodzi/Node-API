@@ -11,7 +11,7 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable();
     table.string(tb.col_comments, tb.col_comments_max_length);
   }).raw(`ALTER TABLE ${tb.tab_tableName}
-  ADD UNIQUE INDEX id_UNIQUE (id ASC) S;`);
+  ADD UNIQUE INDEX id_UNIQUE (id ASC) ;`);
 }
 
 export async function down(knex: Knex): Promise<void> {
