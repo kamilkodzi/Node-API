@@ -23,7 +23,7 @@ export async function up(knex: Knex): Promise<void> {
       .notNullable()
       .unique();
   }).raw(`ALTER TABLE ${tb.tab_tableName}
-  ADD UNIQUE INDEX id_UNIQUE (id ASC) VISIBLE;`);
+  ADD UNIQUE INDEX id_UNIQUE (id ASC) ;`);
 }
 
 export async function down(knex: Knex): Promise<void> {
