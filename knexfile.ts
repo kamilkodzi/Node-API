@@ -4,7 +4,7 @@ import type { Knex } from "knex";
 const config: { [key: string]: Knex.Config } = {
   development: {
     client: "mysql2",
-    version: "8.0.27",
+    version: "5.7.38",
     connection: {
       host: process.env.DB_MYSQL_HOST,
       port: 3306,

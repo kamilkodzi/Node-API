@@ -26,4 +26,4 @@ SECRET_SESSION_ID=uzupełnić
 #### Finally run project with:
 
 > npm run dev
-daniel tu był
+> daniel tu był
